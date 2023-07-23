@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Who Am I?</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/my-page.css">
+</head>
+<body>
+<div class="after-login-container">
+    <!-- back button -->
+    <div class="py-4 home-button" onclick="location.href='/home'">
+        <h3><i class="fas fa-arrow-left"></i></h3>
+    </div>
+    <h3 class="py-4">마이페이지</h3>
+    <div style="padding:1.5rem">
+        <div class="title">기본 정보</div>
+        <table class="table">
+            <tr>
+                <th>아이디</th>
+                <td colspan="2" th:if="${userInfo.oauth == null}" th:text="${userInfo.id}"></td>
+                <td colspan="2" th:if="${userInfo.oauth != null}" th:text="${userInfo.oauth + ' user'}"></td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td th:if="${#strings.isEmpty(userInfo.email)}">-</td>
+                <td th:if="${not #strings.isEmpty(userInfo.email)}" th:text="${userInfo.email}"></td>
+                <td th:if="${#strings.isEmpty(userInfo.email)}">
+                    <div class="email-link" onclick="location.href='/home/mypage/email'">등록</div>
+                </td>
+                <td th:if="${not #strings.isEmpty(userInfo.email)}">
+                    <div class="email-link" onclick="location.href='/home/mypage/email'">수정</div>
+                </td>
+            </tr>
+            <tr>
+                <th>가입 일자</th>
+                <td colspan="2" th:text="${#temporals.format(userInfo.joinDate, 'yyyy-MM-dd')}"></td>
+            </tr>
+        </table>
+    </div>
+    <div style="padding:1.5rem">
+        <div class="title">정보 수정</div>
+        <div class="menu" th:if="${userInfo.oauth == null}" onclick="location.href='/home/mypage/password'">
+            비밀번호 변경
+        </div>
+        <div class="menu" onclick="location.href='/home/mypage/withdrawal'">
+            회원 탈퇴
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Who Am I?</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+    <script th:inline="javascript">
+        var openness = [[${member.openness}]];
+        var conscientiousness = [[${member.conscientiousness}]];
+        var extraversion = [[${member.extraversion}]];
+        var agreeableness = [[${member.agreeableness}]];
+        var neuroticism = [[${member.neuroticism}]];
+        var openness_ = [[${testScores.openness}]];
+        var conscientiousness_ = [[${testScores.conscientiousness}]];
+        var extraversion_ = [[${testScores.extraversion}]];
+        var agreeableness_ = [[${testScores.agreeableness}]];
+        var neuroticism_ = [[${testScores.neuroticism}]];
+    </script>
+</head>
+<body>
+<div class="after-login-container">
+    <!-- back button -->
+    <div class="py-4 home-button" th:attr="onclick='location.href=\'/home/rooms/' + ${link} + '\''">
+        <h3><i class="fas fa-arrow-left"></i></h3>
+    </div>
+    <h4 class="py-4">나의 프로필</h4>
+    <div style="padding:1.5rem">
+        <div class="title">검사 결과</div>
+        <div style="margin-top:2rem">
+            <canvas style="width:100%" id="myChart"></canvas>
+        </div>
+        <div style="margin-top:6rem" class="title">요약</div>
+        <div style="color:darkGray;font-style:italic" th:if="not ${member.testDone}">(먼저 성격 검사를 진행해보세요!)</div>
+        <p th:if="${member.testDone}"><b><[[${room.myName}]]></b>님의 성격 유형은 <span style="font-weight:bold" id="characterType"></span>입니다.</p>
+        <p th:if="${member.testDone}"><span id="characterTypeText"></span></p>
+        <div style="margin-top:6rem" class="title">특성별 설명</div>
+        <div style="color:darkGray;font-style:italic" th:if="not ${member.testDone}">(먼저 성격 검사를 진행해보세요!)</div>
+        <div th:if="${member.testDone}">
+            <p><strong>개방성: <span id="openness"></span></strong></p>
+            <p id="openness-text"></p>
+            <p><strong>성실성: <span id="conscientiousness"></span></strong></p>
+            <p id="conscientiousness-text"></p>
+            <p><strong>외향성: <span id="extraversion"></span></strong></p>
+            <p id="extraversion-text"></p>
+            <p><strong>우호성: <span id="agreeableness"></span></strong></p>
+            <p id="agreeableness-text"></p>
+            <p><strong>신경성: <span id="neuroticism"></span></strong></p>
+            <p id="neuroticism-text"></p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="/js/profile.js"></script>
+</body>
+</html>

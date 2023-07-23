@@ -1,0 +1,17 @@
+.title {
+    margin: 1rem  0;
+    font-weight: bold;
+}
+
+.email-link {
+    padding-right: 1rem;
+    color: darkGray;
+    text-align: right;
+    cursor: pointer;
+}
+
+.menu {
+    color: darkGray;
+    padding: 0.5rem;
+    cursor: pointer;
+}

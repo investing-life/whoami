@@ -1,0 +1,146 @@
+.after-login-container {
+    max-width: 500px;
+    min-height: 100vh;
+    min-height:calc(var(--vh, 1vh) * 100);
+    background-color: #f9fff9;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;}
+
+/* sidebar */
+.overlay {
+    position: fixed;
+    max-width: 500px;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 98;
+    display: none;
+}
+
+.sidebar-open-button {
+    position: absolute;
+    right: 8%;
+    cursor: pointer;
+}
+
+.sidebar-close-button {
+    position: absolute;
+    right: 15%;
+    cursor: pointer;
+}
+
+.sidebar {
+    background-color: #f9f9f9;
+    width: 200px;
+    height: 100vh;
+    position: absolute;
+    top: 0px;
+    right: -200px;
+    z-index: 99;
+    transition: right 0.7s ease;
+}
+
+.sidebar-content {
+    margin-top: 1rem;
+}
+
+.sidebar-menu {
+    margin: 2rem;
+    cursor: pointer;
+}
+
+.sidebar-alarm {
+    position: absolute;
+    right: -0.1rem;
+    top: 1.7rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #FF0000;
+    border-radius: 1rem;
+}
+
+.home-button {
+    position: absolute;
+    left: 8%;
+    cursor: pointer;
+}
+
+.room-container {
+    position: relative;
+    width: 44%;
+    float: left;
+    margin: 1rem 3%;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.new-message {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #FF0000;
+    border-radius: 1rem;
+}
+
+.room-name-background {
+    border-radius: 0.8rem 0.8rem 0 0;
+    background-color: #fafad2;
+}
+
+.room-name {
+    margin: 0 1rem;
+    padding: 0.8rem 0;
+    border-bottom-style: solid;
+    border-width: 1px;
+}
+
+.member-container {
+    padding: 0.4rem 0;
+}
+
+.member-name {
+    margin: 0.4rem 1rem;
+}
+
+.right-nav-button {
+    position: absolute;
+    right: 8%;
+    cursor: pointer;
+}
+
+.notice-alarm {
+    position: absolute;
+    right: 0.5rem;
+    top: 0rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #FF0000;
+    border-radius: 1rem;
+}
+
+.inquiry {
+    position: absolute;
+    top: calc(var(--vh, 1vh) * 100 - 7rem);
+    width: 100%;
+    margin: 0;
+    padding: 2rem;
+}
+
+.inquiry-alarm {
+    position: absolute;
+    right: 0rem;
+    top: 0rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #FF0000;
+    border-radius: 1rem;
+}
+
+.scrollDisabled {
+    !important touch-action: none;
+}

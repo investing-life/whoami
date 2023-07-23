@@ -1,0 +1,226 @@
+.left-section {
+    float: left;
+    width: 40%;
+}
+
+.mid-section {
+    float: left;
+    width: 30%;
+}
+
+.right-section {
+    float: left;
+    width: 30%;
+}
+
+.history {
+    margin: 0 2rem;
+}
+
+.talk {
+    margin: 0 2rem;
+}
+
+.notice {
+    margin: 0 2rem;
+}
+
+.title {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+/* 공지사항 */
+#notice-input {
+    margin: 1rem 0;
+    font-size: 0.9rem;
+}
+
+#notice-num {
+    margin: 0.5rem 0;
+}
+
+#notice-title-input {
+    width: 100%;
+    resize: none;
+    font-size: 0.9rem;
+}
+
+#notice-title-input:focus {
+    box-shadow: none;
+}
+
+#notice-content-input {
+    width: 100%;
+    margin: 0.5rem 0;
+    resize: none;
+    font-size: 0.8rem;
+}
+
+#notice-content-input:focus {
+    box-shadow: none;
+}
+
+.notice-page {
+    border-style: solid;
+    border-width: 1px 0 2px 0;
+}
+
+.single-notice {
+    border-style: solid;
+    border-width: 1px 0 0 0;
+}
+
+.notice-title {
+    padding: 1rem;
+}
+
+.content-wrapper {
+    display: none;
+    overflow: auto;
+}
+
+.notice-content {
+    font-size: 0.8rem;
+    padding: 1.5rem 1rem;
+    border-style: solid;
+    border-width: 1px 0 0 0;
+}
+
+/* 개발자와의 대화 */
+.message-preview {
+    position: relative;
+    overflow: auto;
+    margin-top: 0.5rem;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.member-id {
+    margin: 0.5rem;
+    width: 1rem;
+    float: left;
+    /* 가운데 정렬 */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.message-type {
+    padding: 0.5rem;
+    width: 2rem;
+    float: left;
+    border-style: solid;
+    border-width: 0 0 0 1px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.message-content {
+    padding: 0.5rem;
+    float: left;
+    border-style: solid;
+    border-width: 0 0 0 1px;
+}
+
+.message-time {
+    padding: 0.5rem;
+    width: 4.5rem;
+    float: left;
+    color: lightgray;
+    font-size: 0.7rem;
+    border-color: black;
+    border-style: solid;
+    border-width: 0 0 0 1px;
+    /* 가운데 정렬 */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.new-question {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #FF0000;
+    border-radius: 1rem;
+}
+
+/* 메세지 본문 */
+.qna {
+    display: none;
+    overflow: auto;
+    background-color: #EEFEEE;
+    font-size: 0.9rem;
+}
+
+.date {
+    width: fit-content;
+    margin: 3rem auto 1rem auto;
+    padding: 0.1rem 0.7rem;
+    font-size: 0.8rem;
+    color: #EEEEEE;
+    background-color: #AAAAAA;
+    border-radius: 1rem;
+    clear: both;
+}
+
+.message-A{
+    position: relative;
+    margin: 0.5rem;
+    padding: 0.2rem 0.8rem;
+    float: right;
+    clear: both;
+    background-color: #0d6efd;
+    color: white;
+    border-radius: 0.6rem;
+    max-width: 80%;
+}
+
+.message-Q{
+    position: relative;
+    margin: 0.5rem;
+    padding: 0.2rem 0.8rem;
+    float: left;
+    clear: both;
+    background-color: #e9ecef;
+    border-radius: 0.6rem;
+    max-width: 80%;
+}
+
+.time-A {
+    position: absolute;
+    left: -4rem;
+    bottom: 0;
+    font-size: 0.8rem;
+    color: black;
+}
+
+.time-Q {
+    position: absolute;
+    right: -4rem;
+    bottom: 0;
+    font-size: 0.8rem;
+}
+
+/* 입력창 */
+#send-button {
+    width: 10%;
+    height: 85px;
+    float: left;
+    padding: 0;
+}
+
+#message-input:focus {
+    box-shadow: none;
+}
+
+#send-button:focus {
+    box-shadow: none;
+}

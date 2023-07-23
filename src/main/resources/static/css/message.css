@@ -1,0 +1,84 @@
+.received-message-container {
+    overflow: auto;
+    position: absolute;
+    bottom: 0;
+    margin: 0 1.5rem;
+    height: calc(var(--vh, 1vh) * 100 - 6rem);
+}
+
+.date {
+    color: #AAAAAA;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+.message-content {
+    border-width: 1px;
+    border-radius: 1rem;
+    margin: 1.2rem;
+    padding: 0.8rem;
+}
+
+/* friend message */
+#today-tip {
+    position: absolute;
+    top: 9rem;
+    left: 10%;
+    width: 80%;
+    background-color: #fff0f5;
+    border-radius: 1rem;
+    transform: scale(0, 0);
+    transition: transform 0.3s ease;
+    z-index: 99;
+}
+
+#info-icon {
+    color: lightGray;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.message-container {
+    margin: 0 1rem;
+}
+
+.title {
+    position: absolute;
+    bottom: 0;
+    margin: 1rem 1.5rem;
+    font-weight: bold;
+}
+
+#input-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #f9fff9;
+    border-top: 1px lightGray solid;
+    z-index: 100;
+}
+
+#message-input {
+    resize: none;
+}
+
+#send-button {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    width: 3rem;
+}
+
+#message-input:focus {
+    box-shadow: none;
+}
+
+#send-button:focus {
+    box-shadow: none;
+}
+
+@media (max-width: 500px) {
+    #message-input:focus {
+        border: 1px solid #ced4da;
+    }
+}

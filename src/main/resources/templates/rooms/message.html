@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Who Am I?</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/message.css">
+</head>
+<body>
+<div class="after-login-container">
+    <!-- back button -->
+    <div class="py-4 home-button" th:attr="onclick='location.href=\'/home/rooms/' + ${link} + '\''">
+        <h3><i class="fas fa-arrow-left"></i></h3>
+    </div>
+    <h4 class="py-4">우편함</h4>
+    <div class="received-message-container">
+        <div th:each="message : ${messages}">
+            <div class="date" th:if="${message.wrapper}" th:text="${#temporals.format(message.sendTime, 'yyyy년 M월 d일 EEEE', #locale)}"></div>
+            <div class="message-content" th:attr="style='background-color: ' + ${message.color} + ';'" th:unless="${message.wrapper}" th:utext="${message.message}"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="/js/message.js"></script>
+</body>
+</html>

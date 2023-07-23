@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Who Am I?</title>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/admin.css">
+  <script th:inline="javascript">
+    var historyList = [[${historyList}]];
+    var array = [[${array}]];
+    var talkObjects = [[${talkObjects}]];
+    var noticeList = [[${noticeList}]];
+  </script>
+</head>
+<body style="background-color:white">
+  <div class="left-section">
+    <div class="history">
+      <div class="title">일별 가입자/접속자</div>
+      <canvas style="width:100%" id="historyChart"></canvas>
+      <div class="title">가입자 분포</div>
+      <canvas style="width:100%" id="pyramidChart"></canvas>
+    </div>
+  </div>
+  <div class="mid-section">
+    <div class="notice">
+      <div class="title">공지사항</div>
+      <div id="notice-input">
+        <div id="notice-num">새 글</div>
+        <textarea id="notice-title-input" class="form-control" rows="1"></textarea>
+        <textarea id="notice-content-input" class="form-control" rows="10"></textarea>
+        <button style="font-size:0.9rem" class="btn btn-primary" onclick="newNotice()">새 글 작성하기</button>
+        <button style="font-size:0.9rem" class="btn btn-success" onclick="saveNotice()">글 저장</button>
+        <button style="font-size:0.9rem" class="btn btn-danger" onclick="deleteNotice()">글 삭제</button>
+      </div>
+      <div class="notice-page">
+        <div class="single-notice" th:each="notice : ${noticeList}">
+          <div class="notice-title" th:data-index="${noticeStat.index}">
+            <div class="row">
+              <div class="col-1" th:text="${notice.indexNumber}"></div>
+              <div class="col-7" th:text="${notice.title}"></div>
+              <div class="col-4" style="text-align:right" th:text="${#temporals.format(notice.regDate, 'yyyy-MM-dd')}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right-section">
+    <div class="talk">
+      <div class="title">개발자와의 대화</div>
+      <div>
+        <div th:each="talkObject : ${talkObjects}">
+          <div th:each="inquiry : ${talkObject.inquiryDTOList}">
+            <div class="message-preview" th:data-index="${talkObjectStat.index}" th:if="${inquiryStat.last}">
+              <!-- 마지막 inquiryDTO의 내용을 보여주는 로직 -->
+              <div class="member-id" th:text="${talkObject.memberId}"></div>
+              <div class="message-type" th:text="${inquiry.messageType}"></div>
+              <div class="message-content" th:utext="${inquiry.message}"></div>
+              <div class="message-time" th:text="${#temporals.format(inquiry.sendTime, 'a h:mm', #locale)}" th:if="${talkObject.today}"></div>
+              <div class="message-time" th:text="${#temporals.format(inquiry.sendTime, 'M월 d일', #locale)}" th:unless="${talkObject.today}"></div>
+              <div class="new-question" th:if="${talkObject.newQuestion}"></div>
+            </div>
+          </div>
+          <!-- 메세지 본문 -->
+          <div class="qna" th:data-index="${talkObjectStat.index}">
+            <div class="qna-content">
+              <div th:each="inquiry : ${talkObject.inquiryDTOList}">
+                <div th:if="${inquiry.wrapper}">
+                  <div style="clear:both;"></div>
+                  <div class="date" th:attr="style=${inquiryStat.first} ? 'margin-top:2rem' : ''" th:text="${#temporals.format(inquiry.sendTime, 'yyyy년 M월 d일 EEEE', #locale)}"></div>
+                </div>
+                <div th:unless="${inquiry.wrapper}">
+                  <div th:class="${inquiry.messageType == 'A'} ? 'message-A' : 'message-Q'">
+                    <div th:utext="${inquiry.message}"></div>
+                    <div th:class="${inquiry.messageType == 'A'} ? 'time-A' : 'time-Q'" th:text="${#temporals.format(inquiry.sendTime, 'a h:mm', #locale)}"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 입력창 -->
+            <div style="width:100%">
+              <textarea id="message-input" style="width:90%;float:left;resize:none" class="form-control answer-text" rows="3"></textarea>
+              <button id="send-button" class="btn btn-success" onclick="send_message(this.getAttribute('data-index'))" th:data-index="${talkObjectStat.index}"><i id="send-icon" class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="/js/admin.js"></script>
+</body>
+</html>

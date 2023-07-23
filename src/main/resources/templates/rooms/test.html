@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Who Am I?</title>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
+  <link rel="stylesheet" type="text/css" href="/css/test.css">
+  <script th:inline="javascript">
+    var link = [[${link}]];
+  </script>
+</head>
+<body>
+<div class="after-login-container">
+  <!-- back button -->
+  <div class="py-4 home-button" th:attr="onclick='location.href=\'/home/rooms/' + ${link} + '\''">
+    <h3><i class="fas fa-arrow-left"></i></h3>
+  </div>
+  <h4 class="py-4">성격 검사</h4>
+  <div id="container" style="padding:1.5rem">
+    <div id="guide">
+      <div class="title">안내 사항</div>
+      <p>OCEAN 성격 검사는 다섯 가지 성격 특성의 앞자리를 딴 것으로 Big 5 성격 검사로도 불립니다. 해당 성격 검사는 가장 체계적이고 잘 정립된 검사입니다.</p>
+      <p>과학자들이 최초로 인정한 성격 유형은 OCEAN 성격 특성을 기반으로 한 4가지 유형 분류입니다.
+        여러분은 OCEAN 검사를 통해 성격 특성과 더불어 자신의 성격 유형을 파악할 수 있습니다.</p>
+      <p>검사 결과는 여러분의 계정에 귀속되는 것으로 <b>처음 1회</b>만 수행하면 됩니다.</p>
+      <div style="margin-top:4rem" class="title">검사 방법</div>
+      <p>이제부터 진행할 검사는 IPIP의 NEO5-20문항을 기반으로 작성되었으며 <b>총 56문항</b>으로 구성되어 있습니다. 예상 소요 시간은 <b>5분</b>입니다.</p>
+      <p>지문의 설명에 대해<br><b>'매우 아니다(1)' ~ '매우 그렇다(5)'</b><br>로 표기해 주세요. 모든 문항을 체크해야 다음 페이지로 넘어갈 수 있습니다.</p>
+      <div style="text-align:center;margin-top:2rem"><button style="margin:0 auto" type="button" class="btn btn-warning" onclick="startTest()">검사 시작</button></div>
+    </div>
+    <div style="display:none" id="info">
+      <div class="title">인적 사항</div>
+      <p>아래 정보는 OCEAN 성격 검사 결과 제공을 위해서만 사용됩니다.</p>
+      <div class="mb-3">
+        <div class="title">성별</div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label" for="inlineRadio1">남</label>
+          <input class="form-check-input" type="radio" id="inlineRadio1" value="남" name="sex" onclick="enableNext()">
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label" for="inlineRadio2">여</label>
+          <input class="form-check-input" type="radio" id="inlineRadio2" value="여" name="sex" onclick="enableNext()">
+        </div>
+        <div class="invalid-feedback" id="sex-input-invalid">성별을 선택해주세요.</div>
+      </div>
+      <div class = "mb-3">
+        <div class="title">나이</div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label" for="inlineRadio3">10대 이하</label>
+          <input class="form-check-input" type="radio" id="inlineRadio3" value="10대 이하" name="age" checked>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label" for="inlineRadio4">20대</label>
+          <input class="form-check-input" type="radio" id="inlineRadio4" value="20대" name="age">
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label" for="inlineRadio5">30대</label>
+          <input class="form-check-input" type="radio" id="inlineRadio5" value="30대" name="age">
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label" for="inlineRadio6">40대</label>
+          <input class="form-check-input" type="radio" id="inlineRadio6" value="40대" name="age">
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label" for="inlineRadio7">50대</label>
+          <input class="form-check-input" type="radio" id="inlineRadio7" value="50대" name="age">
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label" for="inlineRadio8">60대 이상</label>
+          <input class="form-check-input" type="radio" id="inlineRadio8" value="60대 이상" name="age">
+        </div>
+      </div>
+      <div style="text-align:center">
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-warning" id="prev_0" onclick="goBack()">이전</button>
+          <button type="button" class="btn btn-warning" disabled="true" id="next_0" onclick="goNext()">다음</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="/js/test.js"></script>
+</body>
+</html>

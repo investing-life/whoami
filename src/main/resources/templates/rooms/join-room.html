@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Who Am I?</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/join-room.css">
+</head>
+<body>
+<div class="after-login-container">
+    <h3 class="py-4">방 참가하기</h3>
+    <div style="padding:1.5rem">
+        <table class="table">
+            <tr>
+                <th>방 이름</th>
+                <td th:text="${room.roomName}"></td>
+            </tr>
+            <tr>
+                <th rowspan="0" style="vertical-align:middle">참여 멤버</th>
+            </tr>
+            <tr th:each="entity : ${room.memberList}">
+                <td th:text="${entity.value}"></td>
+            </tr>
+        </table>
+        <form style="margin:3rem 0" class="needs-validation" onsubmit="return validateForm()" th:action="@{'/home/rooms/' + ${room.roomLink} + '/join'}" method="post">
+            <div class="mb-3">
+                <label for="nickname-input" class="form-label" style="margin-left:0.5rem">이름</label>
+                <input type="text" class="form-control" id="nickname-input" name="nickname">
+                <div class="invalid-feedback" id="nickname-input-invalid-1">이름의 길이는 1 ~ 15 사이여야 합니다.</div>
+                <div class="invalid-feedback" id="nickname-input-invalid-2">이름이 공백으로 시작하거나 끝나면 안 됩니다.</div>
+                <div class="invalid-feedback" id="nickname-input-invalid-3">이름은 한글과 영어, 숫자 및 공백으로만 구성되어야 합니다.</div>
+                <div class="form-text">방 내부에서만 사용되는 이름입니다. 친구들이 알아볼 수 있게 설정해주세요.<br>
+                    이후에도 자유롭게 변경 가능합니다.</div>
+            </div>
+            <div class="mb-3">
+                <label for="color-input" class="form-label" style="margin-left:0.5rem">방 색상</label>
+                <input type="text" class="form-control" id="color-input" name="color">
+                <div class="invalid-feedback" id="color-input-invalid-1">적절하지 않은 색상 코드입니다.</div>
+                <div class="form-text">방 색상은 나의 홈 화면에서 보이는 색상입니다. 이후에도 변경 가능합니다.</div>
+            </div>
+            <div style="margin-left:1rem" class="mb-3">
+                <div style="overflow: auto">
+                    <div id="picked-color-label" style="font-size:0.9rem;float:left">현재 색상:</div>
+                    <div id="picked-color"></div>
+                </div>
+                <table id="color-table"></table>
+            </div>
+            <button type="submit" class="btn btn-success">참가하기</button>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" src="/js/join-room.js"></script>
+</body>
+</html>

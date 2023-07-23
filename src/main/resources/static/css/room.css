@@ -1,0 +1,59 @@
+.title {
+    margin: 1rem  0;
+    font-weight: bold;
+}
+
+.table-link {
+    padding-right: 1rem;
+    text-align: right;
+    cursor: pointer;
+}
+
+.title-sub {
+    margin-left: 0.5rem;
+    color: darkGray;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.my-feedback {
+    font-weight: 400;
+    font-size: 0.875rem;
+}
+
+/* 방 색상 */
+#color-form {
+    margin-left: 0.5rem;
+    display: none;
+}
+
+#color-input {
+    float: left;
+    width: calc(100% - 4rem);
+}
+
+#picked-color {
+    float: left;
+    margin-left: 0.5rem;
+}
+
+#color-table {
+    margin-top: 1rem;
+    border-spacing: 2px;
+    border-collapse: initial;
+}
+
+.cell {
+    width: 20px;
+    height: 20px;
+    margin: 1px 1px 0px 0px;
+    cursor: pointer;
+}
+
+.active{
+    border: 2px solid black;
+}
+
+.menu-color {
+    color: #A569BD;
+}

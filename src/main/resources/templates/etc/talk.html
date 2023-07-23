@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Who Am I?</title>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
+  <link rel="stylesheet" type="text/css" href="/css/talk.css">
+</head>
+<body>
+<div class="after-login-container" style="visibility:hidden;position:relative">
+  <!-- home button -->
+  <div class="py-4 home-button" onclick="location.href='/home'">
+    <h3><i class="fas fa-arrow-left"></i></h3>
+  </div>
+  <h3 class="py-4">개발자와의 대화</h3>
+  <div id="scroll-container" style="padding:0 1.5rem;overflow:auto;height:80vh">
+    <div id="no-message" style="text-align:center" th:if="${#lists.isEmpty(talk)}">아직 문의한 내역이 없습니다.<br>자유롭게 의견을 보내주세요!</div>
+    <div id="container">
+      <div th:each="inquiry, stat : ${talk}">
+        <div th:if="${inquiry.wrapper}">
+          <div style="clear:both;"></div>
+          <div class="date" th:attr="style=${stat.first} ? 'margin-top:0' : ''" th:text="${#temporals.format(inquiry.sendTime, 'yyyy년 M월 d일 EEEE', #locale)}"></div>
+        </div>
+        <div th:unless="${inquiry.wrapper}">
+          <div th:class="${inquiry.messageType == 'A'} ? 'message-A' : 'message-Q'">
+            <div th:utext="${inquiry.message}"></div>
+            <div th:class="${inquiry.messageType == 'A'} ? 'time-A' : 'time-Q'" th:text="${#temporals.format(inquiry.sendTime, 'a h:mm', #locale)}"></div>
+          </div>
+        </div>
+      </div>
+      <div style="clear:both;"></div>
+    </div>
+  </div>
+  <div id="input-div" style="position:fixed;bottom:0;width:100%;max-width:500px">
+    <form method="post">
+      <label for="message-input" class="form-label"></label>
+      <textarea style="width:90%;float:left;resize:none" class="form-control" id="message-input" name="message" rows="1" oninput="textInput(this)"></textarea>
+      <button id="send-button" type="button" class="btn btn-success disabled" onclick="send_message()"><i id="send-icon" class="fas fa-paper-plane"></i></button>
+    </form>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="/js/talk.js"></script>
+</body>
+</html>

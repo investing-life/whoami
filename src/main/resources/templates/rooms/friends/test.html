@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Who Am I?</title>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/test.css">
+    <script th:inline="javascript">
+        var link = [[${link}]];
+        var toId = [[${toId}]]
+    </script>
+</head>
+<body>
+<div class="after-login-container">
+    <!-- back button -->
+    <div class="py-4 home-button" th:attr="onclick='location.href=\'/home/rooms/' + ${link} + '\''">
+        <h3><i class="fas fa-arrow-left"></i></h3>
+    </div>
+    <h4 class="py-4">성격 검사</h4>
+    <div id="container" style="padding:1.5rem">
+        <div id="guide">
+            <div class="title">안내 사항</div>
+            <p>OCEAN 성격 검사는 다섯 가지 성격 특성의 앞자리를 딴 것으로 Big 5 성격 검사로도 불립니다. 해당 성격 검사는 가장 체계적이고 잘 정립된 검사입니다.</p>
+            <p><b>주의)</b> 검사 후에는 결과를 재확인하거나 수정할 수 없으므로 신중하게 선택해 주세요.</p>
+            <div style="margin-top:4rem" class="title">검사 방법</div>
+            <p>친구를 위한 성격 검사는 <b>총 10문항</b>으로 구성되어 있습니다.</p>
+            <p><b>&lt;[[${toName}]]&gt;</b>님에 대해<br><b>'매우 아니다(1)' ~ '매우 그렇다(5)'</b><br>로 표기해 주세요.</p>
+            <div style="text-align:center;margin-top:2rem"><button style="margin:0 auto" type="button" class="btn btn-warning" onclick="startTest()">검사 시작</button></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="/js/test-friend.js"></script>
+</body>
+</html>

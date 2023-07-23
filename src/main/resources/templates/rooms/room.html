@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Who Am I?</title>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/room.css">
+    <script th:inline="javascript">
+        var openness = [[${member.openness}]];
+        var conscientiousness = [[${member.conscientiousness}]];
+        var extraversion = [[${member.extraversion}]];
+        var agreeableness = [[${member.agreeableness}]];
+        var neuroticism = [[${member.neuroticism}]];
+        var openness_ = [[${testScores.openness}]];
+        var conscientiousness_ = [[${testScores.conscientiousness}]];
+        var extraversion_ = [[${testScores.extraversion}]];
+        var agreeableness_ = [[${testScores.agreeableness}]];
+        var neuroticism_ = [[${testScores.neuroticism}]];
+        var testList = [[${testList}]];
+
+        var roomColor = [[${room.roomColor}]];
+    </script>
+</head>
+<body>
+<div class="after-login-container">
+    <!-- back button -->
+    <div class="py-4 home-button" onclick="location.href='/home'">
+        <h3><i class="fas fa-arrow-left"></i></h3>
+    </div>
+    <div style="display:none" class="py-4 right-nav-button" id="submit-title" onclick="submitEditTitleForm()">
+        <h3><i style="cursor:pointer" class="fas fa-check menu-color"></i></h3>
+    </div>
+    <h4 style="max-width:70%;margin:0 auto" class="py-4">
+        <span style="margin-left: 2.5rem" id="title-text">[[${room.roomName}]]</span>
+        <i style="margin-left:0.5rem;cursor:pointer" class="fas fa-pen-to-square menu-color" id="modify-title" onclick="showEditTitleForm()"></i>
+        <div class="my-feedback invalid-feedback" id="name-input-invalid-1">방 이름의 길이는 1 ~ 15 사이여야 합니다.</div>
+        <div class="my-feedback invalid-feedback" id="name-input-invalid-2">방 이름이 공백으로 시작하거나 끝나면 안 됩니다.</div>
+        <div class="my-feedback invalid-feedback" id="name-input-invalid-3">중복된 방 이름입니다.</div>
+        <div class="my-feedback valid-feedback" id="name-input-valid">사용 가능한 방 이름입니다.</div>
+    </h4>
+    <div style="padding:1.5rem">
+        <div class="title">나의 프로필</div>
+        <div>
+            <table style="vertical-align:middle" class="table">
+                <tr>
+                    <th>이름</th>
+                    <td>
+                        <span id="name-text" th:text="${room.myName}"></span>
+                        <div class="invalid-feedback" id="nickname-input-invalid-1">이름의 길이는 1 ~ 15 사이여야 합니다.</div>
+                        <div class="invalid-feedback" id="nickname-input-invalid-2">이름이 공백으로 시작하거나 끝나면 안 됩니다.</div>
+                        <div class="invalid-feedback" id="nickname-input-invalid-3">이름은 한글과 영어, 숫자 및 공백으로만 구성되어야 합니다.</div>
+                    </td>
+                    <td><div class="table-link menu-color" id="modify-name" onclick="showEditNameForm()">수정</div></td>
+                </tr>
+                <tr th:if="${member.testDone}">
+                    <th>성격</th>
+                    <td style="width:50%">
+                        <div style="opacity:50%">
+                            <canvas style="width:100%" id="myChart"></canvas>
+                        </div>
+                    </td>
+                    <td><div class="table-link menu-color" th:attr="onclick='location.href=\'/home/rooms/' + ${room.roomLink} + '/profile\''">자세히</div></td>
+                </tr>
+                <tr th:if="not ${member.testDone}">
+                    <th>성격</th>
+                    <td style="width:50%;color:darkGray;font-style:italic">(먼저 성격 검사를 진행해 보세요!)</td>
+                    <td><div class="table-link menu-color" th:attr="onclick='location.href=\'/home/rooms/' + ${room.roomLink} + '/test\''">검사</div></td>
+                </tr>
+                <tr>
+                    <th rowspan="0">우편함</th>
+                </tr>
+                <tr class="message-content" th:each="message, iterStat : ${messages}" th:if="${iterStat.index} &lt; 3">
+                    <td style="width:75%;font-style:italic" colspan="2" th:utext="'&ldquo;'+${message.message}+'&rdquo;'"></td>
+                </tr>
+                <tr style="display:none" class="message-content" th:each="message, iterStat : ${messages}" th:if="${iterStat.index} &gt; 2">
+                    <td style="width:75%;font-style:italic" colspan="2" th:utext="'&ldquo;'+${message.message}+'&rdquo;'"></td>
+                </tr>
+                <tr id="more-message" th:if="${#lists.size(messages)} &gt; 3">
+                    <td style="text-align:center;cursor:pointer" class="menu-color" colspan="2" onclick="moreMessage()">더보기</td>
+                </tr>
+                <tr style="display:none" id="show-all" th:if="${#lists.size(messages)} &gt; 3">
+                    <td style="text-align:center;cursor:pointer" class="menu-color" colspan="2" th:attr="onclick='location.href=\'/home/rooms/' + ${room.roomLink} + '/message\''">모두 보기</td>
+                </tr>
+                <!-- 만약 message가 하나도 없다면 -->
+                <tr th:if="${#lists.isEmpty(messages)}">
+                    <td style="text-align:center;color:darkGray;font-style:italic" colspan="2">(아직 메세지가 없습니다!)</td>
+                </tr>
+            </table>
+        </div>
+        <div style="margin-top:6rem" class="title">친구 목록</div>
+        <div>
+            <table style="vertical-align:middle" class="table">
+                <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th style="text-align:center">성격 검사</th>
+                        <th style="text-align:center">메시지</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="member : ${room.memberList}">
+                        <td><div style="max-width:45vw" th:text="${member.value}"></div></td>
+                        <td class="test-friend menu-color" style="cursor:pointer;text-align:center" th:attr="onclick='location.href=\'/home/rooms/' + ${room.roomLink} + '/' + ${member.key} + '/test\''"></td>
+                        <td style="cursor:pointer;text-align:center" class="menu-color" th:attr="onclick='location.href=\'/home/rooms/' + ${room.roomLink} + '/' + ${member.key} + '/message\''">Go!<td>
+                    </tr>
+                    <tr th:if="${#maps.isEmpty(room.memberList)}">
+                        <td style="text-align:center;color:darkGray;font-style:italic" colspan="3">(아직 방에 친구가 없습니다!)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top:6rem" class="title">기타 설정</div>
+        <div class="mb-3">
+            <div id="change-color-menu" class="title-sub menu-color">방 색상 변경</div>
+        </div>
+        <form id="color-form" class="needs-validation" onsubmit="return validateForm()" th:action="@{/home/rooms/{link}/color(link=${room.roomLink})}" th:method="patch" method="post">
+            <div style="overflow:auto" class="mb-3">
+                <label for="color-input" class="form-label"></label>
+                <input type="text" class="form-control" id="color-input" name="color">
+                <button type="submit" style="float:left;width:4rem" class="btn btn-success">완료</button>
+                <div class="invalid-feedback" id="color-input-invalid-1">적절하지 않은 색상 코드입니다.</div>
+            </div>
+            <div style="margin-left:1rem" class="mb-3">
+                <div style="overflow: auto">
+                    <div id="picked-color-label" style="font-size:0.9rem;float:left">현재 색상:</div>
+                    <div id="picked-color"></div>
+                </div>
+                <table id="color-table"></table>
+            </div>
+        </form>
+        <div class="mb-3">
+            <div style="margin-left:0.5rem" class="title-sub" onclick="leaveRoom()">방 나가기</div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="/js/room.js"></script>
+</body>
+</html>

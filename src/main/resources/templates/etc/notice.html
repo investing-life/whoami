@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Who Am I?</title>
+  <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
+  <link rel="stylesheet" type="text/css" href="/css/notice.css">
+</head>
+<body>
+<div class="after-login-container">
+  <!-- home button -->
+  <div class="py-4 home-button" onclick="location.href='/home'">
+    <h3><i class="fas fa-arrow-left"></i></h3>
+  </div>
+  <h3 class="py-4">공지사항</h3>
+  <div style="padding:1.5rem">
+    <div>
+      <div class="page-chunk" style="display:none" th:each="chunk : ${chunkedNotices}" th:attr="id='pageChunk' + ${chunkStat.index + 1}">
+        <div class="single-notice" th:each="notice : ${chunk}">
+          <div class=" notice-title">
+            <div class="row">
+              <div class="col-1"><i class="fas fa-plus"></i></div>
+              <div class="col-7" th:text="${notice.title}"></div>
+              <div class="col-4" style="text-align:right" th:text="${#temporals.format(notice.regDate, 'yyyy-MM-dd')}"></div>
+            </div>
+          </div>
+          <div class="content-wrapper">
+            <div class="notice-content" th:utext="${notice.content}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav style="margin-top:3rem" aria-label="Page Navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item page-prev">
+          <a class="page-link shadow-none" href="#" aria-label="Previous" onclick="prevPage()">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item" th:each="chunk : ${chunkedNotices}">
+          <a class="page-link shadow-none page-number" href="#" th:text="${chunkStat.index + 1}"></a>
+        </li>
+        <li class="page-item page-next">
+          <a class="page-link shadow-none" href="#" aria-label="Next" onclick="nextPage()">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/notice.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+#picked-color {
+    float: left;
+    margin-left: 0.5rem;
+}
+
+#color-table {
+    margin-top: 1rem;
+    border-spacing: 2px;
+    border-collapse: initial;
+}
+
+.cell {
+    width: 20px;
+    height: 20px;
+    margin: 1px 1px 0px 0px;
+    cursor: pointer;
+}
+
+.active{
+    border: 2px solid black;
+}

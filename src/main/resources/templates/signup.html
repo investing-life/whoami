@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Who Am I?</title>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+<body>
+<div class="before-login-container">
+    <h3 class="py-4">회원가입 후 서비스를 즐겨보세요!</h3>
+    <div style="padding:1.5rem;">
+        <form class="needs-validation" onsubmit="return validateForm()" th:action="@{/signup}" th:object="${SignUpForm}" method="post">
+            <div class="mb-3">
+                <label for="id" class="form-label">사용자 ID</label>
+                <input type="text" class="form-control" id="id-input" th:field="*{id}">
+                <div class="invalid-feedback" id="id-input-invalid-1">아이디의 길이는 4 ~ 20 사이여야 합니다.</div>
+                <div class="invalid-feedback" id="id-input-invalid-2">아이디는 숫자와 영문으로만 구성되어야 합니다.</div>
+                <div class="invalid-feedback" id="id-input-invalid-3">중복된 아이디입니다.</div>
+                <div class="valid-feedback" id="id-input-valid">사용 가능한 ID입니다.</div>
+            </div>
+            <div class="mb-3">
+                <label for="password-input" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" id="password-input" th:field="*{password}">
+                <div class="invalid-feedback" id="password-input-invalid-1">비밀번호의 길이는 8 ~ 16 사이여야 합니다.</div>
+                <div class="invalid-feedback" id="password-input-invalid-2">비밀번호는 공백 없이 입력해주세요.</div>
+                <div class="invalid-feedback" id="password-input-invalid-3">비밀번호는 숫자와 영문, 특수문자로만 구성되어야 합니다.</div>
+            </div>
+            <div class="mb-3">
+                <label for="passwordCheck-input" class="form-label">비밀번호 확인</label>
+                <input type="password" class="form-control" id="passwordCheck-input" th:field="*{passwordCheck}">
+                <div class="invalid-feedback" id="passwordCheck-input-invalid">비밀번호가 일치하지 않습니다.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email-input" class="form-label">이메일</label>
+                <input type="email" class="form-control" id="email-input" th:field="*{email}">
+                <div class="invalid-feedback" id="email-input-invalid-1">이메일 형식이 맞지 않습니다.</div>
+                <div class="invalid-feedback" id="email-input-invalid-2">중복된 이메일입니다.</div>
+                <div class="form-text">이메일은 아이디와 비밀번호를 찾을 때 필요합니다. 필수 항목은 아닙니다.</div>
+            </div>
+            <button type="submit" class="btn btn-primary">회원가입</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="/js/signup.js"></script>
+</body>
+</html>

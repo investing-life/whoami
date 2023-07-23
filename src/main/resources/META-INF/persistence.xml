@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <persistence-unit name="myPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.example.whoami.domain.Member</class>
+        <class>com.example.whoami.domain.Notice</class>
+        <class>com.example.whoami.domain.Room</class>
+        <class>com.example.whoami.domain.RoomMember</class>
+        <class>com.example.whoami.domain.RoomMessage</class>
+        <class>com.example.whoami.domain.RoomTest</class>
+        <class>com.example.whoami.domain.Inquiry</class>
+
+        <!-- 데이터베이스 연결 설정 -->
+        <properties>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3307/whoami"/>
+            <property name="javax.persistence.jdbc.user" value="guest"/>
+            <property name="javax.persistence.jdbc.password" value="guest"/>
+            <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
+        </properties>
+    </persistence-unit>
+</persistence>

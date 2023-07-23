@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Who Am I?</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+</head>
+<body>
+<div class="before-login-container">
+    <div style="margin:0 10%">
+        <form method="post" th:action="@{/login}">
+            <h2 class="py-4">Who Am I?</h2>
+            <div class="login-container">
+                <div class="mb-3 id-container">
+                    <label for="id" class="form-label" lang="en" style="margin-left:0.5rem">아이디</label>
+                    <input type="text" name="id" class="text-field form-control" id="id-input">
+                    <i class="erase-all fas fa-circle-xmark" onclick="eraseId()"></i>
+                </div>
+                <div class="mb-3 password-container">
+                    <label for="password" class="form-label" lang="en" style="margin-left:0.5rem">비밀번호</label>
+                    <input type="password" name="password" class="text-field form-control" id="password-input">
+                    <i class="erase-all fas fa-circle-xmark" onclick="erasePassword()"></i>
+                </div>
+                <div class="invalid-feedback" th:if="${param.error}" style="display:block; margin-bottom:1rem">
+                    아이디 또는 비밀번호를 잘못 입력하였습니다.<br>
+                    다시 한번 확인해주세요.
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%">로그인</button>
+            </div>
+        </form>
+        <div class="submenu submenu-border" onclick="location.href='/signup'">회원가입</div>
+        <div class="submenu submenu-border" onclick="location.href='/find-id'">아이디 찾기</div>
+        <div class="submenu" onclick="location.href='/reset-pwd'">비밀번호 초기화</div>
+        <img style="width:90%;margin:3rem 5%;cursor:pointer" src="img/kakao_login_large_wide.png" onclick="location.href='/oauth2/authorize/kakao?redirect_uri=/main'">
+    </div>
+</div>
+
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
+</body>
+</html>

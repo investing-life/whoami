@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Who Am I?</title>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
+  <link rel="stylesheet" type="text/css" href="/css/newroom.css">
+</head>
+<body>
+<div class="after-login-container">
+  <!-- home button -->
+  <div class="py-4 home-button" onclick="location.href='/home'">
+    <h3><i class="fas fa-arrow-left"></i></h3>
+  </div>
+  <h3 class="py-4" style="line-height:1.5">새로운 방을 만들고<br>친구들을 초대하세요!</h3>
+  <div style="padding:1.5rem;">
+    <form class="needs-validation" onsubmit="return validateForm()" th:action="@{/home/rooms/new}" method="post">
+      <div class="mb-3">
+        <label for="name-input" class="form-label" style="margin-left:0.5rem">방 이름</label>
+        <input type="text" class="form-control" id="name-input" name="name">
+        <div class="invalid-feedback" id="name-input-invalid-1">방 이름의 길이는 1 ~ 15 사이여야 합니다.</div>
+        <div class="invalid-feedback" id="name-input-invalid-2">방 이름이 공백으로 시작하거나 끝나면 안 됩니다.</div>
+        <div class="invalid-feedback" id="name-input-invalid-3">중복된 방 이름입니다.</div>
+        <div class="valid-feedback" id="name-input-valid">사용 가능한 방 이름입니다.</div>
+        <div class="form-text">방 이름은 이후에 얼마든지 변경 가능합니다.</div>
+      </div>
+      <div class="mb-3">
+        <label for="nickname-input" class="form-label" style="margin-left:0.5rem">이름 (닉네임)</label>
+        <input type="text" class="form-control" id="nickname-input" name="nickname">
+        <div class="invalid-feedback" id="nickname-input-invalid-1">이름의 길이는 1 ~ 15 사이여야 합니다.</div>
+        <div class="invalid-feedback" id="nickname-input-invalid-2">이름이 공백으로 시작하거나 끝나면 안 됩니다.</div>
+        <div class="invalid-feedback" id="nickname-input-invalid-3">이름은 한글과 영어, 숫자 및 공백으로만 구성되어야 합니다.</div>
+        <div class="form-text">방 내부에서만 사용되는 이름입니다. 친구들이 알아볼 수 있게 설정해주세요.<br>
+        이후에도 자유롭게 변경 가능합니다.</div>
+      </div>
+      <div class="mb-3">
+        <label for="color-input" class="form-label" style="margin-left:0.5rem">방 색상</label>
+        <input type="text" class="form-control" id="color-input" name="color">
+        <div class="invalid-feedback" id="color-input-invalid-1">적절하지 않은 색상 코드입니다.</div>
+        <div class="form-text">방 색상은 나의 홈 화면에서 보이는 색상입니다. 이후에도 변경 가능합니다.</div>
+      </div>
+      <div style="margin-left:1rem" class="mb-3">
+        <div style="overflow: auto">
+          <div id="picked-color-label" style="font-size:0.9rem;float:left">현재 색상:</div>
+          <div id="picked-color"></div>
+        </div>
+        <table id="color-table"></table>
+      </div>
+      <button type="submit" class="btn btn-success">방 만들기</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="/js/newroom.js"></script>
+</body>
+</html>

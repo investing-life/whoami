@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Who Am I?</title>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+<body>
+<div class="before-login-container">
+    <h3 class="py-4">아이디 찾기</h3>
+    <div style="padding:1.5rem;">
+        <form id="find-id-form" class="needs-validation" th:action="@{/find-id}" method="post">
+            <div class="mb-3">
+                <label for="email-input" class="form-label" style="margin-left:0.5rem">이메일</label>
+                <input type="email" class="form-control" id="email-input" name="email">
+                <div class="form-text">카카오 로그인 계정은 아이디 찾기가 불가능합니다.</div>
+            </div>
+            <button type="submit" id="submit-button" class="btn btn-primary">아이디 찾기</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="/js/find-id.js"></script>
+</body>
+</html>

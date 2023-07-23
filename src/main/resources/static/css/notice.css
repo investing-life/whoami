@@ -1,0 +1,35 @@
+.page-prev > .page-link:hover {
+    background-color: white;
+}
+
+.page-next > .page-link:hover {
+     background-color: white;
+}
+
+.page-chunk {
+    border-style: solid;
+    border-width: 1px 0 2px 0;
+}
+
+.single-notice {
+    border-style: solid;
+    border-width: 1px 0 0 0;
+}
+
+.notice-title {
+    padding: 1rem;
+}
+
+.content-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.notice-content {
+    position: absolute;
+    width: 100%;
+    font-size: 0.8rem;
+    padding: 1.5rem 1rem;
+    border-style: solid;
+    border-width: 1px 0 0 0;
+}

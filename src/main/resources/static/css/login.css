@@ -1,0 +1,47 @@
+.login-container {
+    margin: 2rem 0;
+    padding: 1rem;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    border-color: lightgray;
+}
+
+.id-container {
+    padding: 0 0 1rem 0;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: lightgray;
+    position: relative;
+}
+
+.password-container {
+    padding: 0 0 1rem 0;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: lightgray;
+    position: relative;
+}
+
+.submenu-border {
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-color: lightgray;
+}
+
+.submenu {
+    width: 33%;
+    float: left;
+    text-align: center;
+    text-color: lightgray;
+    cursor: pointer;
+}
+
+.erase-all {
+    display: none;
+    position: absolute;
+    bottom: 1.75rem;
+    right: 1rem;
+    color: #888888;
+    cursor: pointer;
+}

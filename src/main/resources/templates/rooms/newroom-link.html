@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Who Am I?</title>
+  <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
+  <script th:inline="javascript">
+    var link = [[${link}]];
+  </script>
+</head>
+<body>
+<div class="after-login-container" style="visibility:hidden">
+  <h4 class="py-4">아래의 링크를 카톡방에 공유하세요!</h4>
+  <div style="padding:2.5rem;">
+    <div id="domain" style="float:left;word-break:break-all"></div>
+    <br>
+    <button class="btn btn-success" style="margin-top:1.5rem" onclick="location.href='/home'">홈으로 돌아가기</button>
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/newroom-link.js"></script>
+</body>
+</html>
