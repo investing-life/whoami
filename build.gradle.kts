@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.0.6"
 	id("io.spring.dependency-management") version "1.1.0"
+	id("application")
 }
 
 group = "com.example"
@@ -41,6 +42,8 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
+
+mainClassName = "com.example.whoami.WhoamiApplication" // 메인 클래스 경로 설정
 
 tasks.withType<Test> {
 	useJUnitPlatform()
