@@ -43,7 +43,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-mainClassName = "com.example.whoami.WhoamiApplication" // 메인 클래스 경로 설정
+application {
+	mainClass.set("com.example.whoami.WhoamiApplication")
+}
 
 tasks.withType<Test> {
 	useJUnitPlatform()
