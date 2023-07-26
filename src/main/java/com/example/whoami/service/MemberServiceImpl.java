@@ -50,13 +50,14 @@ public class MemberServiceImpl implements MemberService {
         }
         Member member = new Member(dto.getId(), encryptedPassword, email);
         member.setLastAccessTime(LocalDateTime.now());
+        member.setNewNotice(true);
         memberRepository.save(member);
         return dto.getId();
     }
 
     @Override
     public boolean checkDuplicateID(String id) {
-        Optional<Member> existingMember = memberRepository.findByMemberIdAndDeleted(id, false);
+        Optional<Member> existingMember = memberRepository.findByMemberId(id);
         return existingMember.isPresent();
     }
 

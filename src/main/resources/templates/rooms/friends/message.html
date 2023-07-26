@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Who Am I?</title>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
     <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
@@ -21,18 +23,18 @@
         <h5 style="margin:1.5rem;text-align:center">오늘의 Tip</h5>
         <div style="margin:2rem 1.5rem">
             <div th:if="${difference == 0}">
-                <p>Who Am I 서비스에 오신 것을 환영합니다! 내일부터 9일 간 주제를 제시해 드릴 예정입니다. 참고하셔서 메세지를 작성해 보세요.</p>
+                <p><b>Who Am I</b> 서비스에 오신 것을 환영합니다! 아래의 <b style="color:purple">시작하기</b> 버튼을 누른 날부터 9일 간 주제를 제시해 드릴 예정입니다.</p>
                 <p style="margin-bottom:0.3rem">메세지를 받는 상대는 질문이 무엇인지 모릅니다. 따라서 충분한 설명을 덧붙여 주세요.</p>
-                <p style="color:gray">예시) 자신감 (X)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;너는 처음 봤을 때 자신감이 넘쳐 보였어 (O)</p>
+                <p style="color:gray">예시) 자신감 (X)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;너를 처음 봤을 때 자신감이 넘쳐 보였어 (O)</p>
             </div>
             <div th:if="${difference > 0 and difference <= 9}">
                 <p th:if="${difference == 1}">안녕하세요, 두근두근 1일 차 입니다. 첫 질문이 마음에 드셨으면 좋겠네요.</p>
-                <p th:if="${difference == 2}">오늘의 두 번째 질문입니다.</p>
+                <p th:if="${difference == 2}">친구들의 메세지를 받으셨나요? 오늘의 두 번째 질문입니다.</p>
                 <p th:if="${difference == 3}">저희 사이트 재밌게 이용하고 계신가요? 3일 차 질문 드리겠습니다.</p>
                 <p th:if="${difference == 4}">네 번째 질문입니다. 보내는 메세지 하나하나가 친구에게는 큰 기쁨이 될 거에요.</p>
                 <p th:if="${difference == 5}">벌써 5일 차네요. 오늘의 질문 드리겠습니다!</p>
-                <p th:if="${difference == 6}">메세지는 많이 받으셨나요? 여섯 번째 주제 드리겠습니다.</p>
-                <p th:if="${difference == 7}">방이 만들어진 지 일주일이 되었습니다! 자신에 대해 조금 더 알게 되셨나요?</p>
+                <p th:if="${difference == 6}">오늘도 사이트를 방문해 주셔서 감사해요! 여섯 번째 주제 드릴게요.</p>
+                <p th:if="${difference == 7}">방이 만들어진 지 일주일이 되었습니다! 자신에 대해 조금 더 알게 되셨길 바라요.</p>
                 <p th:if="${difference == 8}">어느새 하루 밖에 남지 않았어요. 조금만 더 힘내세요!</p>
                 <p th:if="${difference == 9}">드디어 마지막 날입니다. 오늘은 더욱 멋진 질문으로 준비했어요.</p>
                 <p style="font-weight:bold" th:text="${todayTip}"></p>
@@ -43,7 +45,13 @@
                 <p>혹시 제시되었던 주제에 대한 의견이나 새로 제안하실 주제가 있으시다면 언제든지 개발자와의 대화 메뉴를 이용해 주세요.</p>
             </div>
         </div>
-        <div style="color:hotpink;padding:0.8rem;text-align:center;border-top:1px lightGray solid;cursor:pointer" onclick="hideTip()">확인</div>
+        <div th:if="${difference == 0}">
+            <div style="float:left;width:50%;color:hotpink;padding:0.8rem;text-align:center;border-top:1px lightGray solid;border-right:1px lightGray solid;cursor:pointer" onclick="hideTip()">확인</div>
+            <div style="float:left;width:50%;color:purple;padding:0.8rem;text-align:center;border-top:1px lightGray solid;cursor:pointer" onclick="startTip()">시작하기</div>
+        </div>
+        <div th:if="${difference != 0}">
+            <div style="color:hotpink;padding:0.8rem;text-align:center;border-top:1px lightGray solid;cursor:pointer" onclick="hideTip()">확인</div>
+        </div>
     </div>
 
     <div style="position:relative;height:9rem">

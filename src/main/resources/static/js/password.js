@@ -8,7 +8,8 @@ function validatePassword(e) {
     document.querySelector('#password-input-invalid-1').style.display='none';
     document.querySelector('#password-input-invalid-2').style.display='none';
     document.querySelector('#password-input-invalid-3').style.display='none';
-    if (passwordInput.value.length < 8 || passwordInput.value.length > 16) {
+    document.querySelector('#password-input-invalid-4').style.display='none';
+    if (passwordInput.value.length < 10 || passwordInput.value.length > 20) {
         document.querySelector('#password-input-invalid-1').style.display='block';
         return false;
     } else if (passwordInput.value.search(/\s/) != -1) {
@@ -17,7 +18,11 @@ function validatePassword(e) {
     } else if (!/^[a-zA-Z0-9!@#$%^&*]+$/.test(passwordInput.value)) {
         document.querySelector('#password-input-invalid-3').style.display='block';
         return false;
+    } else if (!/\d/.test(passwordInput.value) || !/[a-zA-Z]/.test(passwordInput.value)) {
+        document.querySelector('#password-input-invalid-4').style.display='block';
+        return false
     }
+    validatePasswordCheck(e);
     return true;
 }
 

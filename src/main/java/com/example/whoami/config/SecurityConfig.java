@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,10 +20,12 @@ public class SecurityConfig {
 
 //    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, UserDetailsService userDetailsService) {
         this.customOAuth2UserService = customOAuth2UserService;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -43,6 +46,13 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .defaultSuccessUrl("/home"); // 로그인 성공 후 리다이렉트될 경로 설정
 
+        http.rememberMe()
+                .key("uniqueAndSecretKey") // rememberMe 쿠키에 서명을 위한 고유한 키 설정
+                .rememberMeCookieName("rememberMeCookie") // rememberMe 쿠키의 이름 설정
+                .tokenValiditySeconds(604800) // rememberMe 쿠키의 유효기간 설정 (1주일)
+                .userDetailsService(userDetailsService); // 사용자 정보 제공 서비스 설정
+
+
         http.formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
@@ -56,7 +66,7 @@ public class SecurityConfig {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true) // 세션 무효화 여부 설정
-                .deleteCookies("JSESSIONID") // 삭제할 쿠키 설정
+                .deleteCookies("JSESSIONID", "rememberMeCookie") // 삭제할 쿠키 설정
                 .permitAll();
 
         return http.build();

@@ -11,6 +11,8 @@
     <link rel="stylesheet" type="text/css" href="/css/home.css">
     <link rel="stylesheet" type="text/css" href="/css/room.css">
     <script th:inline="javascript">
+        var link = [[${room.roomLink}]];
+
         var openness = [[${member.openness}]];
         var conscientiousness = [[${member.conscientiousness}]];
         var extraversion = [[${member.extraversion}]];

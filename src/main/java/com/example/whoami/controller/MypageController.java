@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 @Controller
 public class MypageController {
@@ -45,7 +46,18 @@ public class MypageController {
     }
 
     @PatchMapping("/home/mypage/email")
-    public String email(@RequestParam("email") String email) {
+    public String email(@RequestParam("email") String email, Model model) {
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9-.]+$";
+        if (!email.isEmpty() && !Pattern.matches(regex, email)) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "이메일 형식이 맞지 않습니다.");
+            return "errorPage";
+        } else if (memberService.checkDuplicateEmail(email)) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "중복된 이메일입니다.");
+            return "errorPage";
+        }
+
         int indexNumber = idGenerator.getIdFromSession();
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setIndexNumber(indexNumber);
@@ -65,10 +77,33 @@ public class MypageController {
     }
 
     @PatchMapping("/home/mypage/password")
-    public String password(@RequestParam("currentPassword") String currentPassword, @RequestParam("password") String password) {
+    public String password(@RequestParam("currentPassword") String currentPassword, @RequestParam("password") String password, @RequestParam("passwordCheck") String passwordCheck, Model model) {
         // 현재 password 확인
         int indexNumber = idGenerator.getIdFromSession();
         if (memberService.checkCurrentPassword(indexNumber, currentPassword)) {
+            if (password.length() < 10 || password.length() > 20) {
+                model.addAttribute("errorMessageTitle", "회원가입 실패");
+                model.addAttribute("errorMessageContent", "비밀번호의 길이는 10 ~ 20 사이여야 합니다.");
+                return "errorPage";
+            } else if (password.contains(" ")) {
+                model.addAttribute("errorMessageTitle", "회원가입 실패");
+                model.addAttribute("errorMessageContent", "비밀번호는 공백 없이 입력해주세요.");
+                return "errorPage";
+            } else if (!Pattern.matches("^[a-zA-Z0-9!@#$%^&*]+$", password)) {
+                model.addAttribute("errorMessageTitle", "회원가입 실패");
+                model.addAttribute("errorMessageContent", "비밀번호는 숫자와 영문, 특수문자로만 구성되어야 합니다.");
+                return "errorPage";
+            } else if (!Pattern.matches("(?=.*\\d)(?=.*[a-zA-Z]).*", password)) {
+                model.addAttribute("errorMessageTitle", "회원가입 실패");
+                model.addAttribute("errorMessageContent", "비밀번호는 숫자와 영문을 포함해야 합니다.");
+                return "errorPage";
+            }
+            if (!Objects.equals(password, passwordCheck)) {
+                model.addAttribute("errorMessageTitle", "회원가입 실패");
+                model.addAttribute("errorMessageContent", "비밀번호가 일치하지 않습니다.");
+                return "errorPage";
+            }
+
             MemberDTO memberDTO = new MemberDTO();
             memberDTO.setIndexNumber(indexNumber);
             memberDTO.setPassword(password);

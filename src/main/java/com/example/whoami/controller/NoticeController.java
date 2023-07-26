@@ -36,13 +36,6 @@ public class NoticeController {
         for (NoticeDTO noticeDTO : noticeDTOList) {
             noticeDTO.setContent(noticeDTO.getContent().replace("\r\n", "<br>"));
         }
-//        for (int i = 0; i < 15; i++) {
-//            NoticeDTO noticeDTO = new NoticeDTO();
-//            noticeDTO.setSequenceNumber(i + 2);
-//            noticeDTO.setTitle("Test" + i);
-//            noticeDTO.setContent("No content.");
-//            noticeDTOList.add(noticeDTO);
-//        }
         Collections.reverse(noticeDTOList);
         List<List<NoticeDTO>> chunkedNotices = ListUtils.partition(noticeDTOList, 5);
         model.addAttribute("chunkedNotices", chunkedNotices);

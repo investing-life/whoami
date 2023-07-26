@@ -11,7 +11,7 @@ function validateEmail(e) {
     document.querySelector('#email-input-invalid-2').style.display='none';
     if (emailInput.value == "") {
         return true;
-    } else if (!/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(emailInput.value)) {
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-.]+$/.test(emailInput.value)) {
         document.querySelector('#email-input-invalid-1').style.display='block';
         return false;
     } else if (duplicateEmail) {

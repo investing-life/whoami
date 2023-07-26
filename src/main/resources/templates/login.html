@@ -28,6 +28,9 @@
                     아이디 또는 비밀번호를 잘못 입력하였습니다.<br>
                     다시 한번 확인해주세요.
                 </div>
+                <div class="mb-3">
+                    <input type="checkbox" name="remember-me" class="form-check-input" id="remember-me"><label style="margin-left:5px" for="remember-me" class="form-check-label">로그인 유지</label>
+                </div>
                 <button type="submit" class="btn btn-primary" style="width:100%">로그인</button>
             </div>
         </form>
@@ -35,6 +38,10 @@
         <div class="submenu submenu-border" onclick="location.href='/find-id'">아이디 찾기</div>
         <div class="submenu" onclick="location.href='/reset-pwd'">비밀번호 초기화</div>
         <img style="width:90%;margin:3rem 5%;cursor:pointer" src="img/kakao_login_large_wide.png" onclick="location.href='/oauth2/authorize/kakao?redirect_uri=/main'">
+        <div style="color:darkGray">시작할 경우, Who Am I의
+            <a style="text-decoration:none;color:blueviolet;opacity:0.8" href="https://awake-lodge-df6.notion.site/Who-Am-I-019a19c6ed094b6c9e66d9a8d01d241c?pvs=4", target="_blank">서비스 이용약관</a>과
+            <a style="text-decoration:none;color:blueviolet;opacity:0.8" href="https://awake-lodge-df6.notion.site/Who-Am-I-cdbb53b74905428c8d769309497b1a6d?pvs=4", target="_blank">개인정보처리방침</a>에 동의하게 됩니다.
+        </div>
     </div>
 </div>
 

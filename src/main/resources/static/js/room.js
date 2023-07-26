@@ -359,18 +359,28 @@ function leaveRoom() {
   var result = confirm("방에서 나가도 보낸 메세지는 삭제되지 않으며, 받은 메세지는 복구할 수 없습니다.\n정말 방을 나가시겠습니까?");
   if (!result) { return; }
 
-  $.ajax({
-    url: window.location.pathname + "/leave",
-    method: "GET",
-    success: function(response) {
-      // 클라이언트에서 리다이렉트
-      window.location.href = "/home";
-    },
-    error: function(xhr, status, error) {
-      alert("요청이 실패했습니다.");
+  // CSRF 토큰 가져오기
+  var csrfToken = $("meta[name='_csrf']").attr("content");
+  var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", window.location.pathname + "/leave", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.setRequestHeader(csrfHeader, csrfToken);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // 성공적으로 요청을 보냈을 때 처리할 코드
+        window.location.href = "/home";
+      } else {
+        // 요청이 실패했을 때 처리할 코드
+        console("방 탈출 실패");
+      }
     }
-  });
+  };
+  xhr.send();
 }
+
 
 // chart.js
 const ctx = document.getElementById('myChart');

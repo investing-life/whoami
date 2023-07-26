@@ -85,6 +85,10 @@ public class HomeServiceImpl implements HomeService {
     @Override
     @Transactional
     public String createRoom(String name, String nickname, String roomColor) {
+        if (checkDuplicateRoomName(name)) {
+            return null;
+        }
+
         Room room = new Room();
         room.setName(name);
 
@@ -105,6 +109,8 @@ public class HomeServiceImpl implements HomeService {
         roomMember.setMemberName(nickname);
         roomMember.setRoomMemberId(1);
         roomMember.setRoomColor(roomColor.toUpperCase());
+        roomMember.setTipPopup(true);
+        roomMember.setQuestionNum(0);
         roomMemberRepository.save(roomMember);
 
         return newAddress;

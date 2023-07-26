@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Who Am I?</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+<body>
+<div class="before-login-container">
+    <div style="padding:2rem 10%">
+        <p style="font-size:3rem;margin-bottom:2rem" th:text="${status + ' ERROR'}"></p>
+        <p style="margin-bottom:2rem" th:if="${status == 403}">페이지에 접근 권한이 없습니다.<br>입력하신 주소가 정확한지 다시 한 번 확인해주세요.</p>
+        <p style="margin-bottom:2rem" th:if="${status == 404}">페이지가 존재하지 않거나, 사용할 수 없는 페이지입니다.<br>입력하신 주소가 정확한지 다시 한 번 확인해주세요.</p>
+        <p style="margin-bottom:2rem" th:if="${status == 500}">페이지가 작동하지 않습니다.<br>계속해서 문제가 발생한다면 whoa9199@gmail.com으로 문의 바랍니다.</p>
+        <p style="margin-bottom:2rem" th:if="${status != 403 and status != 404 and status != 500}">예상치 못한 에러가 발생하였습니다.<br>계속해서 문제가 발생한다면 whoa9199@gmail.com으로 문의 바랍니다.</p>
+        <div>
+            <a href="javascript:history.back()" style="color: forestgreen;text-decoration: none;border: 3px forestgreen solid;padding: 2px 6px;border-radius: 7px">이전 페이지</a>
+            <a href="/" style="color: white;text-decoration: none;background-color: green;padding: 5px 9px;border-radius: 7px">메인 화면</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

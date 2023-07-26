@@ -96,6 +96,8 @@ public class RoomServiceImpl implements RoomService {
         roomMember.setMemberId(indexNumber);
         roomMember.setMemberName(nickname);
         roomMember.setRoomColor(roomColor.toUpperCase());
+        roomMember.setTipPopup(true);
+        roomMember.setQuestionNum(0);
 
         // EntityManagerFactory 생성
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");

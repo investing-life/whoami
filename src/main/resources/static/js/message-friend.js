@@ -101,3 +101,26 @@ function showTip() {
         $(this).hide();
     });
 }
+
+function startTip() {
+    // CSRF 토큰 가져오기
+    var csrfToken = $("meta[name='_csrf']").attr("content");
+    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        url: window.location.pathname + "/tip", // 중복 확인을 위한 서버의 엔드포인트 URL
+        type: "POST",
+        data: {},
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken); // CSRF 토큰을 요청 헤더에 포함
+        },
+        async: false,
+        success: function (response) {
+            window.location.href = window.location.pathname;
+        },
+        error: function () {
+            // 요청 실패 시 처리
+            alert("서버 요청에 실패하였습니다.");
+        },
+    })
+}

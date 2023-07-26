@@ -35,6 +35,9 @@ dependencies {
 	implementation("org.apache.commons:commons-collections4:4.4")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
+	implementation("org.springframework.boot:spring-boot-starter-web") // 웹 의존성 추가
+	implementation("org.springframework.boot:spring-boot-starter-security") // 보안 의존성 추가
+	implementation("org.apache.commons:commons-text:1.10.0")
 	testImplementation("org.projectlombok:lombok:1.18.26")
 	testImplementation("org.projectlombok:lombok:1.18.26")
 	compileOnly("org.projectlombok:lombok")

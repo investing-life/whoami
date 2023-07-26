@@ -650,7 +650,7 @@ function sendResult() {
             window.location.href = response.redirectUrl;
         },
         error: function(xhr, status, error) {
-            console.log('전송 실패:', error);
+            alert('전송 실패');
         }
     });
 

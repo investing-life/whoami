@@ -160,6 +160,7 @@ function send_message() {
                 messageDiv.classList.add('message-Q');
                 messageDiv.innerText = message;
                 document.getElementById("message-input").value = '';
+                document.getElementById('send-button').classList.add('disabled');
                 adjustTextareaRows(document.getElementById("message-input"));
                 var timeDiv = document.createElement('div');
                 timeDiv.classList.add('time-Q');
@@ -170,7 +171,7 @@ function send_message() {
                 var scrollContainer = document.getElementById('scroll-container');
                 scrollContainer.scrollTop = container.scrollHeight;
             } else {
-                alert("Failed to send a message!");
+                alert(xhr.responseText);
             }
         }
     };

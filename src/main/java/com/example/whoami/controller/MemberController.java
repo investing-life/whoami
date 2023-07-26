@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 @Controller
 public class MemberController {
@@ -118,6 +121,12 @@ public class MemberController {
 
             // 로그아웃 처리
             new SecurityContextLogoutHandler().logout(request, response, auth);
+
+            // rememberMe 쿠키 삭제
+            Cookie rememberMeCookie = new Cookie("rememberMeCookie", null);
+            rememberMeCookie.setMaxAge(0);
+            rememberMeCookie.setPath("/");
+            response.addCookie(rememberMeCookie);
         }
         // 로그아웃 후 리다이렉트할 페이지로 이동
         return "redirect:/";
@@ -130,7 +139,58 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String signup(SignUpForm signUpForm) {
+    public String signup(SignUpForm signUpForm, Model model) {
+        // 유효성 검사
+        String id = signUpForm.getId();
+        String password = signUpForm.getPassword();
+        String passwordCheck = signUpForm.getPasswordCheck();
+        String email = signUpForm.getEmail();
+        if (id.length() < 4 || id.length() > 20) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "아이디의 길이는 4 ~ 20 사이여야 합니다.");
+            return "errorPage";
+        } else if (!Pattern.matches("^[a-zA-Z0-9]+$", id)) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "아이디는 숫자와 영문으로만 구성되어야 합니다.");
+            return "errorPage";
+        } else if (memberService.checkDuplicateID(id)) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "중복된 아이디입니다.");
+            return "errorPage";
+        }
+        if (password.length() < 10 || password.length() > 20) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "비밀번호의 길이는 10 ~ 20 사이여야 합니다.");
+            return "errorPage";
+        } else if (password.contains(" ")) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "비밀번호는 공백 없이 입력해주세요.");
+            return "errorPage";
+        } else if (!Pattern.matches("^[a-zA-Z0-9!@#$%^&*]+$", password)) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "비밀번호는 숫자와 영문, 특수문자로만 구성되어야 합니다.");
+            return "errorPage";
+        } else if (!Pattern.matches("(?=.*\\d)(?=.*[a-zA-Z]).*", password)) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "비밀번호는 숫자와 영문을 포함해야 합니다.");
+            return "errorPage";
+        }
+        if (!Objects.equals(password, passwordCheck)) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "비밀번호가 일치하지 않습니다.");
+            return "errorPage";
+        }
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9-.]+$";
+        if (!email.isEmpty() && !Pattern.matches(regex, email)) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "이메일 형식이 맞지 않습니다.");
+            return "errorPage";
+        } else if (memberService.checkDuplicateEmail(email)) {
+            model.addAttribute("errorMessageTitle", "회원가입 실패");
+            model.addAttribute("errorMessageContent", "중복된 이메일입니다.");
+            return "errorPage";
+        }
+
         MemberDTO dto = new MemberDTO(signUpForm.getId(), signUpForm.getPassword(), signUpForm.getEmail());
         memberService.createMember(dto);
 

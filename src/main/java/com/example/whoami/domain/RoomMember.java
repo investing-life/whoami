@@ -41,6 +41,9 @@ public class RoomMember {
     @Column(name = "tip_popup")
     private boolean tipPopup;
 
+    @Column(name = "question_num")
+    private int questionNum;
+
     public int getRoomId() {
         return this.room != null ? room.getIndexNumber() : 0;
     }
@@ -101,5 +104,13 @@ public class RoomMember {
 
     public void setTipPopup(boolean tipPopup) {
         this.tipPopup = tipPopup;
+    }
+
+    public int getQuestionNum() {
+        return questionNum;
+    }
+
+    public void setQuestionNum(int questionNum) {
+        this.questionNum = questionNum;
     }
 }

@@ -2,7 +2,6 @@ package com.example.whoami.service;
 
 import com.example.whoami.domain.RoomMember;
 import com.example.whoami.domain.RoomTest;
-import com.example.whoami.dto.MessageDTO;
 import com.example.whoami.dto.TestDTO;
 import com.example.whoami.repository.RoomMemberRepository;
 import com.example.whoami.repository.RoomTestRepository;
@@ -12,13 +11,9 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -26,21 +21,29 @@ public class RoomTestServiceImpl implements RoomTestService {
 
     private final RoomTestRepository roomTestRepository;
     private final RoomMemberRepository roomMemberRepository;
+    private final EntityManager entityManager;
 
     @Autowired
-    public RoomTestServiceImpl(RoomTestRepository roomTestRepository, RoomMemberRepository roomMemberRepository) {
+    public RoomTestServiceImpl(RoomTestRepository roomTestRepository, RoomMemberRepository roomMemberRepository, EntityManager entityManager) {
         this.roomTestRepository = roomTestRepository;
         this.roomMemberRepository = roomMemberRepository;
+        this.entityManager = entityManager;
     }
 
     public void createTest(TestDTO testDTO) {
-        RoomTest roomTest = new RoomTest();
-
         Optional<RoomMember> roomMemberOptional = roomMemberRepository.findByRoom_linkAndMember_IndexNumberAndDeleted(testDTO.getRoomLink(), testDTO.getIndexNumber(), false);
         if (roomMemberOptional.isPresent()) {
             RoomMember roomMember = roomMemberOptional.get();
-
             RoomMember roomMemberTo = roomMemberRepository.findByRoom_IndexNumberAndRoomMemberIdAndDeleted(roomMember.getRoomId(), testDTO.getToId(), false).get();
+
+            List<RoomTest> roomTestList = roomTestRepository.findByRoomMemberFromRoomMemberTo(roomMember.getRoomId(), roomMember.getMemberId(), roomMemberTo.getRoomId(), roomMemberTo.getMemberId());
+
+            RoomTest roomTest;
+            if (!roomTestList.isEmpty()) {
+                roomTest = roomTestList.get(0);
+            } else {
+                roomTest = new RoomTest();
+            }
 
             roomTest.setRoomMemberFrom(roomMember);
             roomTest.setRoomMemberTo(roomMemberTo);
@@ -50,6 +53,9 @@ public class RoomTestServiceImpl implements RoomTestService {
             roomTest.setExtraversion(testDTO.getExtraversion());
             roomTest.setAgreeableness(testDTO.getAgreeableness());
             roomTest.setNeuroticism(testDTO.getNeuroticism());
+
+            entityManager.detach(roomMember);
+            entityManager.detach(roomMemberTo);
 
             roomTestRepository.save(roomTest);
         }

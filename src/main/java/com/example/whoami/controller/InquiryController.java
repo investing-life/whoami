@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class InquiryController {
@@ -57,7 +58,13 @@ public class InquiryController {
 
     @PostMapping("/home/talk")
     public ResponseEntity<?> talk(@RequestParam("message") String message) {
-        inquiryService.saveInquiry(idGenerator.getIdFromSession(), message, "Q");
-        return ResponseEntity.ok().build();
+        if (message.trim().replaceAll("\\s", "").isEmpty()) {
+            return ResponseEntity.badRequest().body("Failed to send the message: Empty Message");
+        } else if (message.length() > 1024) {
+            return ResponseEntity.badRequest().body("Failed to send the message: Too Long Message");
+        } else {
+            inquiryService.saveInquiry(idGenerator.getIdFromSession(), message, "Q");
+            return ResponseEntity.ok().build();
+        }
     }
 }

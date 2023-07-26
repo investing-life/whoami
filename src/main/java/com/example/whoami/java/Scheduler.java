@@ -45,10 +45,9 @@ public class Scheduler {
         // difference가 10보다 작거나 같으면 켜기 (10은 종료된 첫째 날)
         List<RoomMember> roomMemberList = roomMemberRepository.findAll();
         for (RoomMember roomMember : roomMemberList) {
-            long difference = ChronoUnit.DAYS.between(roomMember.getRoom().getCreateDate(), LocalDate.now());
-            System.out.println(roomMember.getMemberName() + ", " + difference);
-            if (!roomMember.isDeleted() && (difference <= 10)) {
+            if (!roomMember.isDeleted() && !roomMember.isTipPopup() && roomMember.getQuestionNum() > 0 && roomMember.getQuestionNum() < 10) {
                 roomMember.setTipPopup(true);
+                roomMember.setQuestionNum(roomMember.getQuestionNum() + 1);
                 roomMemberRepository.save(roomMember);
             }
         }
