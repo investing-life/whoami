@@ -135,10 +135,6 @@ public class RoomController {
             model.addAttribute("errorMessageTitle", "방 가입 실패");
             model.addAttribute("errorMessageContent", "이름이 공백으로 시작하거나 끝나면 안 됩니다.");
             return "errorPage";
-        } else if (!Pattern.matches("^[a-zA-Z가-힣0-9 ]+$", nickname)) {
-            model.addAttribute("errorMessageTitle", "방 가입 실패");
-            model.addAttribute("errorMessageContent", "이름은 한글과 영어, 숫자 및 공백으로만 구성되어야 합니다.");
-            return "errorPage";
         }
         if (!Pattern.matches("^#[0-9A-Fa-f]{6}$", color)) {
             model.addAttribute("errorMessageTitle", "방 가입 실패");
@@ -218,10 +214,6 @@ public class RoomController {
         } else if (!Objects.equals(nickname.trim(), nickname)) {
             model.addAttribute("errorMessageTitle", "이름 변경 실패");
             model.addAttribute("errorMessageContent", "이름이 공백으로 시작하거나 끝나면 안 됩니다.");
-            return "errorPage";
-        } else if (!Pattern.matches("^[a-zA-Z가-힣0-9 ]+$", nickname)) {
-            model.addAttribute("errorMessageTitle", "이름 변경 실패");
-            model.addAttribute("errorMessageContent", "이름은 한글과 영어, 숫자 및 공백으로만 구성되어야 합니다.");
             return "errorPage";
         }
 

@@ -75,15 +75,11 @@ function colorPicked(x, y) {
 function validateNickname(e) {
     document.querySelector('#nickname-input-invalid-1').style.display='none';
     document.querySelector('#nickname-input-invalid-2').style.display='none';
-    document.querySelector('#nickname-input-invalid-3').style.display='none';
     if (nicknameInput.value.length < 1 || nicknameInput.value.length > 15) {
         document.querySelector('#nickname-input-invalid-1').style.display='block';
         return false;
     } else if (/^\s/.test(nicknameInput.value) || /\s$/.test(nicknameInput.value)) {
         document.querySelector('#nickname-input-invalid-2').style.display='block';
-        return false;
-    } else if (!/^[a-zA-Zㄱ-힣0-9 ]+$/.test(nicknameInput.value)) {
-        document.querySelector('#nickname-input-invalid-3').style.display='block';
         return false;
     }
     return true;
