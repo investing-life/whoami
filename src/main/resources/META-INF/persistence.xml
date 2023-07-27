@@ -14,14 +14,9 @@
         <class>com.example.whoami.domain.RoomMessage</class>
         <class>com.example.whoami.domain.RoomTest</class>
         <class>com.example.whoami.domain.Inquiry</class>
+        <class>com.example.whoami.domain.History</class>
 
         <!-- 데이터베이스 연결 설정 -->
-        <properties>
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="javax.persistence.jdbc.url" value="${SPRING_DATASOURCE_URL}"/>
-            <property name="javax.persistence.jdbc.user" value="${SPRING_DATASOURCE_USERNAME}"/>
-            <property name="javax.persistence.jdbc.password" value="${SPRING_DATASOURCE_PASSWORD}"/>
-            <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
-        </properties>
+
     </persistence-unit>
 </persistence>

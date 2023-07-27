@@ -5,6 +5,7 @@ import com.example.whoami.domain.RoomMember;
 import com.example.whoami.dto.RoomInfoDTO;
 import com.example.whoami.exception.DuplicateRoomMemberException;
 import com.example.whoami.exception.InvalidRoomLinkException;
+import com.example.whoami.java.EnvironmentVariables;
 import com.example.whoami.java.IdGenerator;
 import com.example.whoami.repository.RoomMemberRepository;
 import com.example.whoami.repository.RoomRepository;
@@ -35,7 +36,8 @@ public class RoomServiceImpl implements RoomService {
     public boolean roomMemberExist(String roomLink) {
 
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
+
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
@@ -100,7 +102,7 @@ public class RoomServiceImpl implements RoomService {
         roomMember.setQuestionNum(0);
 
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         String jpql = "SELECT MAX(rm.roomMemberId) FROM RoomMember rm WHERE rm.room.indexNumber = :roomId";

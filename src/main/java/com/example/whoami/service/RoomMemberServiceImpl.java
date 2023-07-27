@@ -47,7 +47,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     @Override
     public String findNameByRoomLinkAndIdAndDeleted(String roomLink, int roomMemberId, boolean deleted) {
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit, EnvironmentVariables.getProperties()");
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         String jpql = "SELECT rm.memberName FROM RoomMember rm WHERE rm.room.link = :roomLink AND rm.roomMemberId = :roomMemberId AND rm.deleted = :deleted";
@@ -72,7 +72,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     @Override
     public int findMemberIdByRoomLinkAndIdAndDeleted(String roomLink, int roomMemberId, boolean deleted) {
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit, EnvironmentVariables.getProperties()");
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         String jpql = "SELECT rm.member.indexNumber FROM RoomMember rm WHERE rm.room.link = :roomLink AND rm.roomMemberId = :roomMemberId AND rm.deleted = :deleted";

@@ -3,6 +3,7 @@ package com.example.whoami.service;
 import com.example.whoami.domain.RoomMember;
 import com.example.whoami.domain.RoomMessage;
 import com.example.whoami.dto.MessageDTO;
+import com.example.whoami.java.EnvironmentVariables;
 import com.example.whoami.repository.RoomMemberRepository;
 import com.example.whoami.repository.RoomMessageRepository;
 import jakarta.persistence.EntityManager;
@@ -35,7 +36,7 @@ public class RoomMessageServiceImpl implements RoomMessageService {
         List<MessageDTO> messageDTOList = new ArrayList<>();
 
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         // RoomMessage는 Room 엔티티를 참조하는데, RoomMessage 엔티티 자체가 정의되기 전에 JPQL 쿼리에서 사용되어서 문제가 발생 (by chat gpt)
@@ -98,7 +99,7 @@ public class RoomMessageServiceImpl implements RoomMessageService {
         List<MessageDTO> messageDTOList = new ArrayList<>();
 
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit, EnvironmentVariables.getProperties()");
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 

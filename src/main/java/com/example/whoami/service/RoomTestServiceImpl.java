@@ -3,6 +3,7 @@ package com.example.whoami.service;
 import com.example.whoami.domain.RoomMember;
 import com.example.whoami.domain.RoomTest;
 import com.example.whoami.dto.TestDTO;
+import com.example.whoami.java.EnvironmentVariables;
 import com.example.whoami.repository.RoomMemberRepository;
 import com.example.whoami.repository.RoomTestRepository;
 import jakarta.persistence.EntityManager;
@@ -66,7 +67,7 @@ public class RoomTestServiceImpl implements RoomTestService {
         TestDTO testDTO = new TestDTO();
 
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
@@ -110,7 +111,7 @@ public class RoomTestServiceImpl implements RoomTestService {
     @Override
     public List<Integer> getTestList(int id, String roomLink) {
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
