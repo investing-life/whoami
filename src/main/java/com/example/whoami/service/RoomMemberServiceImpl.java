@@ -3,6 +3,7 @@ package com.example.whoami.service;
 import com.example.whoami.domain.Member;
 import com.example.whoami.domain.RoomMember;
 import com.example.whoami.dto.RoomMemberDTO;
+import com.example.whoami.java.EnvironmentVariables;
 import com.example.whoami.repository.MemberRepository;
 import com.example.whoami.repository.RoomMemberRepository;
 import jakarta.persistence.EntityManager;
@@ -47,7 +48,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     @Override
     public String findNameByRoomLinkAndIdAndDeleted(String roomLink, int roomMemberId, boolean deleted) {
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit, EnvironmentVariables.getProperties()");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         String jpql = "SELECT rm.memberName FROM RoomMember rm WHERE rm.room.link = :roomLink AND rm.roomMemberId = :roomMemberId AND rm.deleted = :deleted";
@@ -72,7 +73,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     @Override
     public int findMemberIdByRoomLinkAndIdAndDeleted(String roomLink, int roomMemberId, boolean deleted) {
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit, EnvironmentVariables.getProperties()");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         String jpql = "SELECT rm.member.indexNumber FROM RoomMember rm WHERE rm.room.link = :roomLink AND rm.roomMemberId = :roomMemberId AND rm.deleted = :deleted";

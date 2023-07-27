@@ -99,7 +99,7 @@ public class RoomMessageServiceImpl implements RoomMessageService {
         List<MessageDTO> messageDTOList = new ArrayList<>();
 
         // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit, EnvironmentVariables.getProperties()");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
         // EntityManager 생성
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
