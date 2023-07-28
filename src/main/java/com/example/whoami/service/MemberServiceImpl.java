@@ -69,29 +69,64 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberInfoDTO getMemberInfo(Integer indexNumber) {
-        Optional<Member> member = memberRepository.findById(indexNumber);
+        Optional<Member> memberOptional = memberRepository.findById(indexNumber);
         MemberInfoDTO memberInfoDTO = new MemberInfoDTO();
-        if (member.isPresent()) {
-            memberInfoDTO.setId(member.get().getMemberId());
-            memberInfoDTO.setEmail(member.get().getEmail());
-            memberInfoDTO.setOauth(member.get().getOauth());
-            memberInfoDTO.setJoinDate(member.get().getJoinDate());
-            memberInfoDTO.setAdmin(member.get().isAdmin());
-            if (member.get().getOpenness() != 0 &&
-                    member.get().getConscientiousness() != 0 &&
-                    member.get().getExtraversion() != 0 &&
-                    member.get().getAgreeableness() != 0 &&
-                    member.get().getNeuroticism() != 0) {
+        if (memberOptional.isPresent()) {
+            Member member = memberOptional.get();
+            memberInfoDTO.setId(member.getMemberId());
+            memberInfoDTO.setEmail(member.getEmail());
+            memberInfoDTO.setOauth(member.getOauth());
+            memberInfoDTO.setJoinDate(member.getJoinDate());
+            memberInfoDTO.setAdmin(member.isAdmin());
+            if (member.getOpenness() != 0 &&
+                    member.getConscientiousness() != 0 &&
+                    member.getExtraversion() != 0 &&
+                    member.getAgreeableness() != 0 &&
+                    member.getNeuroticism() != 0) {
                 memberInfoDTO.setTestDone(true);
             } else {
                 memberInfoDTO.setTestDone(false);
             }
-            memberInfoDTO.setOpenness(member.get().getOpenness());
-            memberInfoDTO.setConscientiousness(member.get().getConscientiousness());
-            memberInfoDTO.setExtraversion(member.get().getExtraversion());
-            memberInfoDTO.setAgreeableness(member.get().getAgreeableness());
-            memberInfoDTO.setNeuroticism(member.get().getNeuroticism());
+            memberInfoDTO.setOpenness(member.getOpenness());
+            memberInfoDTO.setConscientiousness(member.getConscientiousness());
+            memberInfoDTO.setExtraversion(member.getExtraversion());
+            memberInfoDTO.setAgreeableness(member.getAgreeableness());
+            memberInfoDTO.setNeuroticism(member.getNeuroticism());
 
+        } else {
+            // maybe user withdrew while loading
+        }
+        return memberInfoDTO;
+    }
+
+    @Override
+    public MemberInfoDTO getMemberInfoAndUpdateLastAccessTime(Integer indexNumber) {
+        Optional<Member> memberOptional = memberRepository.findById(indexNumber);
+        MemberInfoDTO memberInfoDTO = new MemberInfoDTO();
+        if (memberOptional.isPresent()) {
+            Member member = memberOptional.get();
+            memberInfoDTO.setId(member.getMemberId());
+            memberInfoDTO.setEmail(member.getEmail());
+            memberInfoDTO.setOauth(member.getOauth());
+            memberInfoDTO.setJoinDate(member.getJoinDate());
+            memberInfoDTO.setAdmin(member.isAdmin());
+            if (member.getOpenness() != 0 &&
+                    member.getConscientiousness() != 0 &&
+                    member.getExtraversion() != 0 &&
+                    member.getAgreeableness() != 0 &&
+                    member.getNeuroticism() != 0) {
+                memberInfoDTO.setTestDone(true);
+            } else {
+                memberInfoDTO.setTestDone(false);
+            }
+            memberInfoDTO.setOpenness(member.getOpenness());
+            memberInfoDTO.setConscientiousness(member.getConscientiousness());
+            memberInfoDTO.setExtraversion(member.getExtraversion());
+            memberInfoDTO.setAgreeableness(member.getAgreeableness());
+            memberInfoDTO.setNeuroticism(member.getNeuroticism());
+
+            member.setLastAccessTime(LocalDateTime.now());
+            memberRepository.save(member);
         } else {
             // maybe user withdrew while loading
         }

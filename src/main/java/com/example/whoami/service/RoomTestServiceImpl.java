@@ -6,10 +6,7 @@ import com.example.whoami.dto.TestDTO;
 import com.example.whoami.java.EnvironmentVariables;
 import com.example.whoami.repository.RoomMemberRepository;
 import com.example.whoami.repository.RoomTestRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
+import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +17,16 @@ import java.util.Optional;
 @Service
 public class RoomTestServiceImpl implements RoomTestService {
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private final RoomTestRepository roomTestRepository;
     private final RoomMemberRepository roomMemberRepository;
-    private final EntityManager entityManager;
 
     @Autowired
-    public RoomTestServiceImpl(RoomTestRepository roomTestRepository, RoomMemberRepository roomMemberRepository, EntityManager entityManager) {
+    public RoomTestServiceImpl(RoomTestRepository roomTestRepository, RoomMemberRepository roomMemberRepository) {
         this.roomTestRepository = roomTestRepository;
         this.roomMemberRepository = roomMemberRepository;
-        this.entityManager = entityManager;
     }
 
     public void createTest(TestDTO testDTO) {
@@ -66,11 +64,6 @@ public class RoomTestServiceImpl implements RoomTestService {
     public TestDTO findReceivedTestScoresById(int id, String roomLink) {
         TestDTO testDTO = new TestDTO();
 
-        // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
-        // EntityManager 생성
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
         String jpql = "SELECT rt.openness, rt.conscientiousness, rt.extraversion, rt.agreeableness, rt.neuroticism FROM RoomTest rt " +
                 "JOIN rt.roomMemberTo rmt " +
                 "WHERE rmt.room.link = :roomLink AND rmt.member.indexNumber = :id";
@@ -100,20 +93,11 @@ public class RoomTestServiceImpl implements RoomTestService {
             testDTO.setNeuroticism(neuroticism / resultList.size());
         }
 
-        // EntityManager 닫기
-        entityManager.close();
-        // EntityManagerFactory 닫기
-        entityManagerFactory.close();
-
         return testDTO;
     }
 
     @Override
     public List<Integer> getTestList(int id, String roomLink) {
-        // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
-        // EntityManager 생성
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         String jpql = "SELECT DISTINCT(rt.roomMemberTo.roomMemberId) FROM RoomTest rt " +
                 "JOIN rt.roomMemberFrom rmf " +
@@ -122,11 +106,6 @@ public class RoomTestServiceImpl implements RoomTestService {
         query.setParameter("id", id);
         query.setParameter("roomLink", roomLink);
         List<Integer> indexNumberList = query.getResultList();
-
-        // EntityManager 닫기
-        entityManager.close();
-        // EntityManagerFactory 닫기
-        entityManagerFactory.close();
 
         return indexNumberList;
     }

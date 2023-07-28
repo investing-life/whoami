@@ -38,6 +38,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web") // 웹 의존성 추가
 	implementation("org.springframework.boot:spring-boot-starter-security") // 보안 의존성 추가
 	implementation("org.apache.commons:commons-text:1.10.0")
+	implementation("org.hibernate.orm:hibernate-hikaricp:6.2.6.Final")
 	testImplementation("org.projectlombok:lombok:1.18.26")
 	testImplementation("org.projectlombok:lombok:1.18.26")
 	compileOnly("org.projectlombok:lombok")

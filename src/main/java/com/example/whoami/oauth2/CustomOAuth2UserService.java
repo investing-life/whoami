@@ -40,6 +40,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             // 가입되지 않은 경우
             Member member = new Member("kakao-" + Base64.getEncoder().encodeToString(String.valueOf(oAuth2UserInfo.getId()).getBytes()), "kakao", null);
             member.setLastAccessTime(LocalDateTime.now());
+            member.setNewNotice(true);
             member.setOauth("kakao");
             // gender, age_range 설정
 //            String gender = (String) oAuth2UserInfo.getAttributes().get("gender");

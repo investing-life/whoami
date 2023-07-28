@@ -19,6 +19,8 @@ public interface MemberService {
 
     public MemberInfoDTO getMemberInfo(Integer indexNumber);
 
+    public MemberInfoDTO getMemberInfoAndUpdateLastAccessTime(Integer indexNumber);
+
     public void updateMember(MemberDTO dto);
 
     public boolean checkCurrentPassword(int indexNumber, String password);

@@ -9,10 +9,7 @@ import com.example.whoami.java.EnvironmentVariables;
 import com.example.whoami.java.IdGenerator;
 import com.example.whoami.repository.RoomMemberRepository;
 import com.example.whoami.repository.RoomRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
+import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -21,6 +18,9 @@ import java.util.*;
 
 @Service
 public class RoomServiceImpl implements RoomService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private final IdGenerator idGenerator;
     private final RoomRepository roomRepository;
@@ -35,22 +35,12 @@ public class RoomServiceImpl implements RoomService {
 
     public boolean roomMemberExist(String roomLink) {
 
-        // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
-
-        // EntityManager 생성
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
         // 해당 방에 가입되어있는지 확인
         String jpql = "SELECT COUNT(rm.indexNumber) FROM RoomMember rm WHERE rm.member.indexNumber = :memberId AND rm.room.indexNumber = (SELECT r.indexNumber FROM Room r WHERE r.link = :roomLink) AND rm.deleted = false";
         Query query = entityManager.createQuery(jpql);
         query.setParameter("memberId", idGenerator.getIdFromSession());
         query.setParameter("roomLink", roomLink);
         int count = ((Long) query.getSingleResult()).intValue();
-        // EntityManager 닫기
-        entityManager.close();
-        // EntityManagerFactory 닫기
-        entityManagerFactory.close();
 
         if (count > 1) {
             throw new DuplicateRoomMemberException("Duplicate room member");
@@ -101,10 +91,6 @@ public class RoomServiceImpl implements RoomService {
         roomMember.setTipPopup(true);
         roomMember.setQuestionNum(0);
 
-        // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
-        // EntityManager 생성
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         String jpql = "SELECT MAX(rm.roomMemberId) FROM RoomMember rm WHERE rm.room.indexNumber = :roomId";
         Query query = entityManager.createQuery(jpql);
         query.setParameter("roomId", roomId);
@@ -114,11 +100,6 @@ public class RoomServiceImpl implements RoomService {
         } else {
             roomMember.setRoomMemberId(((int) query.getSingleResult()) + 1);
         }
-
-        // EntityManager 닫기
-        entityManager.close();
-        // EntityManagerFactory 닫기
-        entityManagerFactory.close();
 
         roomMemberRepository.save(roomMember);
     }

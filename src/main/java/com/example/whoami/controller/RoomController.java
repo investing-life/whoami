@@ -3,6 +3,7 @@ package com.example.whoami.controller;
 import com.example.whoami.dto.*;
 import com.example.whoami.exception.DuplicateRoomMemberException;
 import com.example.whoami.exception.InvalidRoomLinkException;
+import com.example.whoami.exception.NotJoinedRoomException;
 import com.example.whoami.java.IdGenerator;
 import com.example.whoami.service.*;
 import jakarta.persistence.EntityManager;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,31 +49,14 @@ public class RoomController {
 
     @GetMapping("/home/rooms/{link}")
     public String room(Model model, @PathVariable("link") String link) {
-        boolean alreadyJoined = true;
         try {
-            alreadyJoined = roomService.roomMemberExist(link);
-        } catch (DuplicateRoomMemberException e) {
-            logger.error("Error occurred while entering room");
-        }
-        if (!alreadyJoined) {
-            try {
-                roomService.getRoomByLink(link);
-            } catch (InvalidRoomLinkException e) {
-                logger.error("Error occurred while entering room");
-                model.addAttribute("errorMessageTitle", "방 진입 실패");
-                model.addAttribute("errorMessageContent", "유효하지 않은 주소입니다.");
-                return "errorPage";
-            }
-            return "redirect:/home/rooms/" + link + "/join";
-        } else {
             int indexNumber = idGenerator.getIdFromSession();
 
-            // accessed
-            memberService.updateLastAccessTime(indexNumber, LocalDateTime.now());
             // message read
             roomMemberService.readMessage(link, indexNumber);
 
-            model.addAttribute("member", memberService.getMemberInfo(indexNumber));
+            // accessed
+            model.addAttribute("member", memberService.getMemberInfoAndUpdateLastAccessTime(indexNumber));
             RoomInfoDTO roomInfoDTO = roomService.getRoomByLink(link);
             model.addAttribute("room", roomInfoDTO);
             List<Integer> indexNumberList = roomTestService.getTestList(indexNumber, link);
@@ -88,6 +73,16 @@ public class RoomController {
             model.addAttribute("testScores", roomTestService.findReceivedTestScoresById(indexNumber, link));
 
             return "rooms/room";
+        } catch (NotJoinedRoomException e) {
+            try {
+                roomService.getRoomByLink(link);
+            } catch (InvalidRoomLinkException ee) {
+                logger.error("Error occurred while entering room");
+                model.addAttribute("errorMessageTitle", "방 진입 실패");
+                model.addAttribute("errorMessageContent", "유효하지 않은 주소입니다.");
+                return "errorPage";
+            }
+            return "redirect:/home/rooms/" + link + "/join";
         }
     }
 

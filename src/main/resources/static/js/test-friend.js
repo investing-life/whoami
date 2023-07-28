@@ -92,7 +92,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.85,
   "key": -1,
-  "text": "스스로가 다른 사람보다 낫다고 믿는다.",
+  "text": "내가 다른 사람보다 낫다고 믿는다.",
   "original_text": "Believe that I am better than others.",
   "label": "Agreeableness"
  },
@@ -108,7 +108,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.89,
   "key": -1,
-  "text": "과도한 세금이 예술가를 지원하기 위해 사용된다고 믿는다.",
+  "text": "예술가를 지원하기 위해 과도한 세금이 지출된다고 믿는다.",
   "original_text": "Believe that too much tax money goes to support artists.",
   "label": "Openness To Experience"
  },
@@ -124,7 +124,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.9,
   "key": 1,
-  "text": "스스로의 계획을 잘 실행한다.",
+  "text": "나의 계획을 잘 실행한다.",
   "original_text": "Carry out my plans.",
   "label": "Conscientiousness"
  },
@@ -172,7 +172,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.91,
   "key": 1,
-  "text": "자신을 싫어한다.",
+  "text": "나 자신을 싫어한다.",
   "original_text": "Dislike myself.",
   "label": "Neuroticism"
  },
@@ -268,7 +268,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.9,
   "key": 1,
-  "text": "스스로 세운 계획을 잘 따른다.",
+  "text": "계획을 세우면 잘 지킨다.",
   "original_text": "Follow through with my plans.",
   "label": "Conscientiousness"
  },
@@ -308,7 +308,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.89,
   "key": -1,
-  "text": "추상적인 아이디어를 이해하는 데 어려움이 있다.",
+  "text": "추상적인 아이디어를 이해하는 것에 어려움이 있다.",
   "original_text": "Have difficulty understanding abstract ideas.",
   "label": "Openness To Experience"
  },
@@ -332,7 +332,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.85,
   "key": -1,
-  "text": "다른 사람들에게 요구를 한다.",
+  "text": "다른 사람들에게 많은 것을 요구한다.",
   "original_text": "Make demands on others.",
   "label": "Agreeableness"
  },
@@ -372,7 +372,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.91,
   "key": -1,
-  "text": "압박 하에서도 침착할 수 있다.",
+  "text": "압박감 속에서도 침착할 수 있다.",
   "original_text": "Remain calm under pressure.",
   "label": "Neuroticism"
  },
@@ -388,7 +388,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.91,
   "key": -1,
-  "text": "다른 사람들로부터 물러선다.",
+  "text": "다른 사람들과 가까워지는 것이 부담스럽다.",
   "original_text": "Retreat from others.",
   "label": "Extraversion"
  },
@@ -404,9 +404,25 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.85,
   "key": -1,
-  "text": "다른 사람들이 숨은 동기가 있는지 의심한다.",
+  "text": "다른 사람들에게 숨은 동기가 있는지 의심한다.",
   "original_text": "Suspect hidden motives in others.",
   "label": "Agreeableness"
+ },
+ {
+  "instrument": "NEO5-20",
+  "alpha": 0.89,
+  "key": -1,
+  "text": "보수 정치 후보에게 투표하는 경향이 있다.",
+  "original_text": "Tend to vote for conservative political candidates.",
+  "label": "Openness To Experience"
+ },
+ {
+  "instrument": "NEO5-20",
+  "alpha": 0.89,
+  "key": 1,
+  "text": "진보 정치 후보에게 투표하는 경향이 있다.",
+  "original_text": "Tend to vote for liberal political candidates.",
+  "label": "Openness To Experience"
  },
  {
   "instrument": "NEO5-20",
@@ -420,7 +436,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.85,
   "key": 1,
-  "text": "사람들의 말을 신뢰한다.",
+  "text": "다른 사람들의 말을 신뢰한다.",
   "original_text": "Trust what people say.",
   "label": "Agreeableness"
  },
@@ -428,7 +444,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.91,
   "key": 1,
-  "text": "빠르게 사람들과 가까워진다.",
+  "text": "다른 사람들과 빠르게 가까워진다.",
   "original_text": "Warm up quickly to others.",
   "label": "Extraversion"
  }

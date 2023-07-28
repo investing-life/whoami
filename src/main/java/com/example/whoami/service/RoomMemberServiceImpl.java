@@ -3,14 +3,10 @@ package com.example.whoami.service;
 import com.example.whoami.domain.Member;
 import com.example.whoami.domain.RoomMember;
 import com.example.whoami.dto.RoomMemberDTO;
-import com.example.whoami.java.EnvironmentVariables;
+import com.example.whoami.exception.NotJoinedRoomException;
 import com.example.whoami.repository.MemberRepository;
 import com.example.whoami.repository.RoomMemberRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
-import jakarta.transaction.Transactional;
+import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +15,13 @@ import java.util.Optional;
 @Service
 public class RoomMemberServiceImpl implements RoomMemberService {
 
-    @Autowired
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private final MemberRepository memberRepository;
     private final RoomMemberRepository roomMemberRepository;
 
+    @Autowired
     public RoomMemberServiceImpl(MemberRepository memberRepository, RoomMemberRepository roomMemberRepository) {
         this.memberRepository = memberRepository;
         this.roomMemberRepository = roomMemberRepository;
@@ -47,10 +46,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     public String findNameByRoomLinkAndIdAndDeleted(String roomLink, int roomMemberId, boolean deleted) {
-        // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
-        // EntityManager 생성
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         String jpql = "SELECT rm.memberName FROM RoomMember rm WHERE rm.room.link = :roomLink AND rm.roomMemberId = :roomMemberId AND rm.deleted = :deleted";
         Query query = entityManager.createQuery(jpql);
         query.setParameter("roomLink", roomLink);
@@ -62,20 +58,12 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         }
         String result = query.getSingleResult().toString();
 
-        // EntityManager 닫기
-        entityManager.close();
-        // EntityManagerFactory 닫기
-        entityManagerFactory.close();
-
         return result;
     }
 
     @Override
     public int findMemberIdByRoomLinkAndIdAndDeleted(String roomLink, int roomMemberId, boolean deleted) {
-        // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
-        // EntityManager 생성
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         String jpql = "SELECT rm.member.indexNumber FROM RoomMember rm WHERE rm.room.link = :roomLink AND rm.roomMemberId = :roomMemberId AND rm.deleted = :deleted";
         Query query = entityManager.createQuery(jpql);
         query.setParameter("roomLink", roomLink);
@@ -87,19 +75,19 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         }
         int result = Integer.parseInt(query.getSingleResult().toString());
 
-        // EntityManager 닫기
-        entityManager.close();
-        // EntityManagerFactory 닫기
-        entityManagerFactory.close();
-
         return result;
     }
 
     @Override
     public void readMessage(String roomLink, int indexNumber) {
-        RoomMember roomMember = roomMemberRepository.findByRoom_linkAndMember_IndexNumberAndDeleted(roomLink, indexNumber, false).get();
-        roomMember.setNewMessage(false);
-        roomMemberRepository.save(roomMember);
+        Optional<RoomMember> roomMemberOptional = roomMemberRepository.findByRoom_linkAndMember_IndexNumberAndDeleted(roomLink, indexNumber, false);
+        if (roomMemberOptional.isPresent()) {
+            RoomMember roomMember = roomMemberOptional.get();
+            roomMember.setNewMessage(false);
+            roomMemberRepository.save(roomMember);
+        } else {
+            throw new NotJoinedRoomException("Not Joined The Room");
+        }
     }
 
     @Override

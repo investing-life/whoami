@@ -6,10 +6,7 @@ import com.example.whoami.dto.MessageDTO;
 import com.example.whoami.java.EnvironmentVariables;
 import com.example.whoami.repository.RoomMemberRepository;
 import com.example.whoami.repository.RoomMessageRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
+import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +20,9 @@ import java.util.Optional;
 @Service
 public class RoomMessageServiceImpl implements RoomMessageService {
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private final RoomMemberRepository roomMemberRepository;
     private final RoomMessageRepository roomMessageRepository;
 
@@ -35,46 +35,42 @@ public class RoomMessageServiceImpl implements RoomMessageService {
     public List<MessageDTO> findReceivedMessagesById(int id, String roomLink) {
         List<MessageDTO> messageDTOList = new ArrayList<>();
 
-        // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
-        // EntityManager 생성
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         // RoomMessage는 Room 엔티티를 참조하는데, RoomMessage 엔티티 자체가 정의되기 전에 JPQL 쿼리에서 사용되어서 문제가 발생 (by chat gpt)
 //        String jpql = "SELECT message, sendTime FROM RoomMember a INNER JOIN RoomMessage b " +
 //                "On a.roomId = b.roomId AND a.roomMemberId = b.roomMemberTo.roomMemberId INNER JOIN Room c " +
 //                "On a.roomId = c.indexNumber WHERE c.link = :roomLink AND a.memberId = :id";
 
+//        Instant beforeTime = Instant.now();
+//        String jpql = "SELECT rm FROM RoomMessage rm " +
+//                "JOIN FETCH rm.roomMemberTo rmt " +
+//                "WHERE rmt.room.link = :roomLink AND rmt.member.indexNumber = :id ORDER BY rm.sendTime DESC";
+//
+//        Query query = entityManager.createQuery(jpql);
+//        query.setParameter("id", id);
+//        query.setParameter("roomLink", roomLink);
+//        query.getResultList();
+//        Instant afterTime = Instant.now();
+//        System.out.println("Fetch join - 실행 시간(ms): " + Duration.between(beforeTime, afterTime).toMillis());
         Instant beforeTime = Instant.now();
-        String jpql = "SELECT rm FROM RoomMessage rm " +
-                "JOIN FETCH rm.roomMemberTo rmt " +
+        String jpql = "SELECT rm.message, rm.sendTime, rm.color FROM RoomMessage rm " +
+                "JOIN rm.roomMemberTo rmt " +
                 "WHERE rmt.room.link = :roomLink AND rmt.member.indexNumber = :id ORDER BY rm.sendTime DESC";
-
         Query query = entityManager.createQuery(jpql);
         query.setParameter("id", id);
         query.setParameter("roomLink", roomLink);
-        query.getResultList();
-        Instant afterTime = Instant.now();
-        System.out.println("Fetch join - 실행 시간(ms): " + Duration.between(beforeTime, afterTime).toMillis());
-        beforeTime = Instant.now();
-        jpql = "SELECT rm.message, rm.sendTime, rm.color FROM RoomMessage rm " +
-                "JOIN rm.roomMemberTo rmt " +
-                "WHERE rmt.room.link = :roomLink AND rmt.member.indexNumber = :id ORDER BY rm.sendTime DESC";
-        query = entityManager.createQuery(jpql);
-        query.setParameter("id", id);
-        query.setParameter("roomLink", roomLink);
         List<Object[]> resultList = query.getResultList();
-        afterTime = Instant.now();
+        Instant afterTime = Instant.now();
         System.out.println("Original join - 실행 시간(ms): " + Duration.between(beforeTime, afterTime).toMillis());
 
-        beforeTime = Instant.now();
-        jpql = "SELECT rm.message, rm.sendTime, rm.color FROM RoomMessage rm " +
-                "WHERE rm.roomMemberTo.room.link = :roomLink AND rm.roomMemberTo.member.indexNumber = :id Order By rm.sendTime DESC";
-        query = entityManager.createQuery(jpql);
-        query.setParameter("id", id);
-        query.setParameter("roomLink", roomLink);
-        query.getResultList();
-        afterTime = Instant.now();
-        System.out.println("No join - 실행 시간(ms): " + Duration.between(beforeTime, afterTime).toMillis());
+//        beforeTime = Instant.now();
+//        jpql = "SELECT rm.message, rm.sendTime, rm.color FROM RoomMessage rm " +
+//                "WHERE rm.roomMemberTo.room.link = :roomLink AND rm.roomMemberTo.member.indexNumber = :id Order By rm.sendTime DESC";
+//        query = entityManager.createQuery(jpql);
+//        query.setParameter("id", id);
+//        query.setParameter("roomLink", roomLink);
+//        query.getResultList();
+//        afterTime = Instant.now();
+//        System.out.println("No join - 실행 시간(ms): " + Duration.between(beforeTime, afterTime).toMillis());
 
         for (Object[] result : resultList) {
             MessageDTO messageDTO = new MessageDTO();
@@ -87,21 +83,11 @@ public class RoomMessageServiceImpl implements RoomMessageService {
             messageDTOList.add(messageDTO);
         }
 
-        // EntityManager 닫기
-        entityManager.close();
-        // EntityManagerFactory 닫기
-        entityManagerFactory.close();
-
         return messageDTOList;
     }
 
     public List<MessageDTO> findSentMessagesById(int id, int toId, String roomLink) {
         List<MessageDTO> messageDTOList = new ArrayList<>();
-
-        // EntityManagerFactory 생성
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit", EnvironmentVariables.getProperties());
-        // EntityManager 생성
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         String jpql = "SELECT rm.message, rm.sendTime, rm.color FROM RoomMessage rm " +
                 "WHERE rm.roomMemberTo.room.link = :roomLink AND rm.roomMemberTo.roomMemberId = :toId AND rm.roomMemberFrom.member.indexNumber = :id";
@@ -121,11 +107,6 @@ public class RoomMessageServiceImpl implements RoomMessageService {
             messageDTO.setColor(color);
             messageDTOList.add(messageDTO);
         }
-
-        // EntityManager 닫기
-        entityManager.close();
-        // EntityManagerFactory 닫기
-        entityManagerFactory.close();
 
         return messageDTOList;
     }
