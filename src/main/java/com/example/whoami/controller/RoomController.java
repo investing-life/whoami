@@ -52,9 +52,6 @@ public class RoomController {
         try {
             int indexNumber = idGenerator.getIdFromSession();
 
-            // message read
-            roomMemberService.readMessage(link, indexNumber);
-
             // accessed
             model.addAttribute("member", memberService.getMemberInfoAndUpdateLastAccessTime(indexNumber));
             RoomInfoDTO roomInfoDTO = roomService.getRoomByLink(link);
@@ -71,6 +68,11 @@ public class RoomController {
             model.addAttribute("testList", testList);
             model.addAttribute("messages", roomMessageService.findReceivedMessagesById(indexNumber, link));
             model.addAttribute("testScores", roomTestService.findReceivedTestScoresById(indexNumber, link));
+
+            entityManager.clear();
+
+            // message read
+            roomMemberService.readMessage(link, indexNumber);
 
             return "rooms/room";
         } catch (NotJoinedRoomException e) {

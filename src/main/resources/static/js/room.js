@@ -19,7 +19,19 @@ window.onload = function() {
     init();
 }
 
+window.addEventListener("resize", () => {
+    // mailbox 점 위치 조정
+    mailboxRect = document.getElementById("mailbox").getBoundingClientRect();
+    document.getElementsByClassName("new-message")[0].style.left = mailboxRect.left + mailboxRect.width + 'px';
+    document.getElementsByClassName("new-message")[0].style.top = mailboxRect.top + 'px';
+});
+
 function init() {
+    // mailbox 점 위치 조정
+    mailboxRect = document.getElementById("mailbox").getBoundingClientRect();
+    document.getElementsByClassName("new-message")[0].style.left = mailboxRect.left + mailboxRect.width + 'px';
+    document.getElementsByClassName("new-message")[0].style.top = mailboxRect.top + 'px';
+
     // 테이블을 생성할 위치 선택
     var table = document.getElementById('color-table');
 
@@ -335,20 +347,6 @@ function validateNickname(e) {
         return false;
     }
     return true;
-}
-
-// 메세지 더보기
-function moreMessage() {
-    messageList = document.querySelectorAll(".message-content");
-    moreMessage = document.querySelector("#more-message");
-    showAll = document.querySelector("#show-all");
-    for (i = 3; i < 6 && i < messageList.length; i++) {
-        messageList[i].style.display = "";
-    }
-    moreMessage.style.display = "none";
-    if (messageList.length > 6) {
-        showAll.style.display = "";
-    }
 }
 
 function leaveRoom() {

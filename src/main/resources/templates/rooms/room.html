@@ -29,6 +29,8 @@
     </script>
 </head>
 <body>
+<div class="new-message" th:if="${room.newMessage}"></div>
+<div style="display:none" class="new-message" th:unless="${room.newMessage}"></div>
 <div class="after-login-container">
     <!-- back button -->
     <div class="py-4 home-button" onclick="location.href='/home'">
@@ -73,19 +75,13 @@
                     <td><div class="table-link menu-color" th:attr="onclick='location.href=\'/home/rooms/' + ${room.roomLink} + '/test\''">검사</div></td>
                 </tr>
                 <tr>
-                    <th rowspan="0">우편함</th>
+                    <th rowspan="0" style="cursor:pointer" th:attr="onclick='location.href=\'/home/rooms/' + ${room.roomLink} + '/message\''"><span id="mailbox">우편함</span></th>
                 </tr>
-                <tr class="message-content" th:each="message, iterStat : ${messages}" th:if="${iterStat.index} &lt; 3">
+                <tr style="cursor:pointer" class="message-content" th:each="message, iterStat : ${messages}" th:if="${iterStat.index} &lt; 3" th:attr="onclick='location.href=\'/home/rooms/' + ${room.roomLink} + '/message\''">
                     <td style="width:75%;font-style:italic" colspan="2" th:utext="'&ldquo;'+${message.message}+'&rdquo;'"></td>
                 </tr>
-                <tr style="display:none" class="message-content" th:each="message, iterStat : ${messages}" th:if="${iterStat.index} &gt; 2">
-                    <td style="width:75%;font-style:italic" colspan="2" th:utext="'&ldquo;'+${message.message}+'&rdquo;'"></td>
-                </tr>
-                <tr id="more-message" th:if="${#lists.size(messages)} &gt; 3">
-                    <td style="text-align:center;cursor:pointer" class="menu-color" colspan="2" onclick="moreMessage()">더보기</td>
-                </tr>
-                <tr style="display:none" id="show-all" th:if="${#lists.size(messages)} &gt; 3">
-                    <td style="text-align:center;cursor:pointer" class="menu-color" colspan="2" th:attr="onclick='location.href=\'/home/rooms/' + ${room.roomLink} + '/message\''">모두 보기</td>
+                <tr style="cursor:pointer" th:if="${#lists.size(messages)} &gt; 3" th:attr="onclick='location.href=\'/home/rooms/' + ${room.roomLink} + '/message\''">
+                    <td style="text-align:center;cursor:pointer" class="menu-color" colspan="2">모두 보기</td>
                 </tr>
                 <!-- 만약 message가 하나도 없다면 -->
                 <tr th:if="${#lists.isEmpty(messages)}">

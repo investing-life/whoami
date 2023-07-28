@@ -68,6 +68,7 @@ public class RoomServiceImpl implements RoomService {
                         dto.setMyName(entity.getMemberName());
                         dto.setRoomColor(entity.getRoomColor());
                         dto.setTipPopup(entity.isTipPopup());
+                        dto.setNewMessage(entity.isNewMessage());
                     } else {
                         tuple.put(entity.getRoomMemberId(), entity.getMemberName());
                     }

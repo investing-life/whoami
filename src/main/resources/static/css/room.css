@@ -21,6 +21,17 @@
     font-size: 0.875rem;
 }
 
+.new-message {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #FF0000;
+    border-radius: 1rem;
+    z-index: 100;
+}
+
 /* 방 색상 */
 #color-form {
     margin-left: 0.5rem;
