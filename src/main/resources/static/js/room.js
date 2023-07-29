@@ -19,19 +19,7 @@ window.onload = function() {
     init();
 }
 
-window.addEventListener("resize", () => {
-    // mailbox 점 위치 조정
-    mailboxRect = document.getElementById("mailbox").getBoundingClientRect();
-    document.getElementsByClassName("new-message")[0].style.left = mailboxRect.left + mailboxRect.width + 'px';
-    document.getElementsByClassName("new-message")[0].style.top = mailboxRect.top + 'px';
-});
-
 function init() {
-    // mailbox 점 위치 조정
-    mailboxRect = document.getElementById("mailbox").getBoundingClientRect();
-    document.getElementsByClassName("new-message")[0].style.left = mailboxRect.left + mailboxRect.width + 'px';
-    document.getElementsByClassName("new-message")[0].style.top = mailboxRect.top + 'px';
-
     // 테이블을 생성할 위치 선택
     var table = document.getElementById('color-table');
 

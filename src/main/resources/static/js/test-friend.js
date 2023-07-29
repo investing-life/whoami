@@ -92,7 +92,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.85,
   "key": -1,
-  "text": "내가 다른 사람보다 낫다고 믿는다.",
+  "text": "자신이 다른 사람보다 낫다고 믿는다.",
   "original_text": "Believe that I am better than others.",
   "label": "Agreeableness"
  },
@@ -124,7 +124,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.9,
   "key": 1,
-  "text": "나의 계획을 잘 실행한다.",
+  "text": "자신의 계획을 잘 실행한다.",
   "original_text": "Carry out my plans.",
   "label": "Conscientiousness"
  },
@@ -172,7 +172,7 @@ data = [
   "instrument": "NEO5-20",
   "alpha": 0.91,
   "key": 1,
-  "text": "나 자신을 싫어한다.",
+  "text": "자신을 싫어한다.",
   "original_text": "Dislike myself.",
   "label": "Neuroticism"
  },
