@@ -27,7 +27,7 @@ public class Scheduler {
         this.roomMemberRepository = roomMemberRepository;
     }
 
-    @Scheduled(cron = "0 0 0 * * *") // 매일 자정(0시 0분 0초)에 실행
+    @Scheduled(cron = "0 0 15 * * *") // 매일 자정(0시 0분 0초)에 실행
     @Transactional
     public void midnightScheduler() {
         List<Member> memberList = memberRepository.findAll();
